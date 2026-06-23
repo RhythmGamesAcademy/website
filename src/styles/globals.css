@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-deep: #0a0a14;
+  --color-bg-surface: #13131f;
+  --color-bg-elevated: #1a1a2e;
+  --color-accent-pink: #ff2d95;
+  --color-accent-cyan: #00f0ff;
+  --color-accent-purple: #b44dff;
+  --color-text-primary: #e8e6f0;
+  --color-text-secondary: #8a8a9a;
+
+  --color-cat-amendments: var(--color-accent-cyan);
+  --color-cat-statements: var(--color-accent-pink);
+  --color-cat-admissions: var(--color-accent-purple);
+  --color-cat-news: var(--color-text-primary);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-deep);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .decoration-strong {
+    text-shadow: 0 0 10px rgba(255, 45, 149, 0.5);
+  }
+  
+  .decoration-minimal {
+    /* 控えめな装飾。憲章や記事本文向け */
+  }
+
+  .text-glow-pink {
+    text-shadow: 0 0 8px var(--color-accent-pink), 0 0 16px var(--color-accent-pink);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 8px var(--color-accent-cyan), 0 0 16px var(--color-accent-cyan);
+  }
+
+  .box-glow-purple {
+    box-shadow: 0 0 15px rgba(180, 77, 255, 0.4);
+  }
+}
+
+/* Markdown コンテンツ用のスタイル (憲章・記事本文) */
+.markdown-body {
+  @apply text-text-primary leading-relaxed;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  @apply font-bold mt-8 mb-4;
+  color: var(--color-text-primary);
+}
+
+.markdown-body h1 {
+  @apply text-3xl border-b border-gray-700 pb-2;
+}
+
+.markdown-body h2 {
+  @apply text-2xl border-b border-gray-700 pb-2;
+}
+
+.markdown-body h3 {
+  @apply text-xl;
+}
+
+.markdown-body p {
+  @apply mb-4 leading-8;
+}
+
+.markdown-body ul, .markdown-body ol {
+  @apply mb-4 ml-6 list-disc;
+}
+
+.markdown-body li {
+  @apply mb-2;
+}
+
+.markdown-body a {
+  @apply text-accent-cyan underline underline-offset-2 hover:text-accent-pink transition-colors;
+}
+
+.markdown-body blockquote {
+  @apply border-l-4 border-accent-purple pl-4 italic text-text-secondary;
+}
