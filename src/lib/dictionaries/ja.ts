@@ -15,6 +15,6 @@ export const ja = {
     sitePolicy: 'サイトポリシー',
     accessibility: 'アクセシビリティ方針',
   },
-} as const;
+};
 
 export type Dictionary = typeof ja;
