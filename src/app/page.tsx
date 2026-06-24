@@ -1,30 +1,30 @@
-import { getHeroSlides } from '@/src/lib/hero-slides';
-import { getAllArticles } from '@/src/lib/articles';
-import HeroSlider from '@/src/components/HeroSlider';
-import ArticleList from '@/src/components/ArticleList';
+'use client';
 
-export default async function Home() {
-  const slides = getHeroSlides();
-  const articles = await getAllArticles();
-  
-  // Show only top 6 recent articles on the home page
-  const recentArticles = articles.slice(0, 6);
+import { useEffect, useState } from 'react';
+
+export default function RootPage() {
+  const [redirecting, setRedirecting] = useState(true);
+
+  useEffect(() => {
+    // Perform client-side redirect
+    window.location.replace('./ja/');
+  }, []);
 
   return (
-    <div className="container px-4 mx-auto md:px-6 py-8">
-      <section className="mb-16">
-        <HeroSlider slides={slides} />
-      </section>
-
-      <section>
-        <div className="flex items-center justify-between mb-8 border-b border-gray-800 pb-4">
-          <h2 className="text-3xl font-bold text-text-primary">最新のノーツ</h2>
-          <a href="/articles" className="text-accent-cyan hover:text-accent-pink transition-colors underline underline-offset-4">
-            すべて見る
-          </a>
-        </div>
-        <ArticleList articles={recentArticles} />
-      </section>
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-bg-page text-text-primary p-4">
+      <h1 className="text-3xl font-bold mb-4">音楽ゲーム学園</h1>
+      {redirecting ? (
+        <p>日本語サイトへ移動しています...</p>
+      ) : (
+        <a href="./ja/" className="text-accent-pink hover:underline">
+          日本語ページへ移動
+        </a>
+      )}
+      <noscript>
+        <a href="./ja/" className="text-accent-pink hover:underline">
+          日本語ページへ移動
+        </a>
+      </noscript>
+    </main>
   );
 }

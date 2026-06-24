@@ -15,9 +15,6 @@ export default function Footer() {
           <Link href="/charter" className="text-sm text-text-secondary hover:text-accent-pink transition-colors">
             学園憲章
           </Link>
-          <a href="#" className="text-sm text-text-secondary hover:text-accent-cyan transition-colors">
-            Discord
-          </a>
         </nav>
         
         <div className="text-xs text-text-secondary">
