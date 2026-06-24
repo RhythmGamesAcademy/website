@@ -13,19 +13,42 @@ export function getNavItems(locale: Locale): NavItem[] {
     { key: 'articles', href: `/${locale}/articles/` },
     { key: 'admissions', href: `/${locale}/articles/admissions/how-to-join/` },
     { key: 'charter', href: `/${locale}/charter/` },
+    { key: 'about', href: `/${locale}/about/` },
+    { key: 'contact', href: `/${locale}/contact/` },
+  ];
+}
+
+export interface FooterNavGroup {
+  titleKey: string;
+  items: NavItem[];
+}
+
+export function getFooterNavGroups(locale: Locale): FooterNavGroup[] {
+  return [
     {
-      key: 'contact',
-      href: `mailto:${siteConfig.contactEmail}`,
-      isExternal: true,
+      titleKey: 'groupAbout',
+      items: [
+        { key: 'charter', href: `/${locale}/charter/` },
+        { key: 'about', href: `/${locale}/about/` },
+        { key: 'organization', href: `/${locale}/about/organization/` },
+      ],
+    },
+    {
+      titleKey: 'groupInfo',
+      items: [
+        { key: 'articles', href: `/${locale}/articles/` },
+        { key: 'admissions', href: `/${locale}/articles/admissions/how-to-join/` },
+        { key: 'contact', href: `/${locale}/contact/` },
+      ],
     },
   ];
 }
 
-export function getFooterNavItems(locale: Locale): NavItem[] {
+export function getFooterBottomLinks(locale: Locale): NavItem[] {
   return [
-    { key: 'charter', href: `/${locale}/charter/` },
-    { key: 'privacyPolicy', href: `/${locale}/policies/privacy/` },
+    { key: 'sitemap', href: `/${locale}/sitemap/` },
     { key: 'sitePolicy', href: `/${locale}/policies/site-policy/` },
+    { key: 'privacyPolicy', href: `/${locale}/policies/privacy/` },
     { key: 'accessibility', href: `/${locale}/policies/accessibility/` },
   ];
 }

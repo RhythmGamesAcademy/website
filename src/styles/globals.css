@@ -2,27 +2,28 @@
 @import "tailwindcss";
 
 @theme {
-  /* White-based Vaporwave palette */
-  --color-bg-page:     #fafafa;
+  /* White-based Vaporwave palette (v3 light elegant mockup) */
+  --color-bg-page:     #fdfcfb;
   --color-bg-surface:  #ffffff;
-  --color-bg-elevated: #f4f2fa;
-  --color-bg-deep:     #ede8f8;
+  --color-bg-elevated: #f7f4f6;
+  --color-bg-deep:     #f3e3ec;
 
   /* Legacy aliases for dark-mode tokens still referenced in some components */
   --color-bg-deep-legacy: #0a0a14;
 
-  --color-accent-pink:    #e0176f;
-  --color-accent-cyan:    #0891a8;
-  --color-accent-purple:  #7c3aed;
-  --color-accent-lavender: #c4b5fd;
-  --color-accent-blush:    #fce7f3;
+  --color-accent-pink:    #a8447e;
+  --color-accent-cyan:    #4f8f8f;
+  --color-accent-purple:  #8472b8;
+  --color-accent-lavender: #ece7f5;
+  --color-accent-blush:    #f3e3ec;
 
-  --color-text-primary:   #1a1025;
-  --color-text-secondary: #6b5e7c;
-  --color-text-muted:     #a89ebe;
+  --color-text-primary:   #1f1c22;
+  --color-text-secondary: #5c5660;
+  --color-text-muted:     #9b95a0;
 
-  --color-border:         #e5e0f5;
-  --color-border-subtle:  #f0edf9;
+  --color-border:         #e3dfe2;
+  --color-border-subtle:  #ece7f5;
+  --color-border-strong:  #1f1c22;
 
   --color-cat-amendments: var(--color-accent-cyan);
   --color-cat-statements: var(--color-accent-pink);

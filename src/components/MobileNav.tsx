@@ -18,6 +18,7 @@ const navLabelKeys: Record<string, keyof Dictionary['nav']> = {
   articles: 'articles',
   admissions: 'admissions',
   charter: 'charter',
+  about: 'about',
   contact: 'contact',
 };
 

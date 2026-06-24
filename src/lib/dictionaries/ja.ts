@@ -14,6 +14,9 @@ export const ja = {
     privacyPolicy: 'プライバシーポリシー',
     sitePolicy: 'サイトポリシー',
     accessibility: 'アクセシビリティ方針',
+    sitemap: 'サイトマップ',
+    groupAbout: '学園について',
+    groupInfo: '参加・お問い合わせ',
   },
 };
 

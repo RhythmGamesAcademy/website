@@ -16,5 +16,8 @@ export const en: Dictionary = {
     privacyPolicy: 'Privacy Policy',
     sitePolicy: 'Site Policy',
     accessibility: 'Accessibility',
+    sitemap: 'Sitemap',
+    groupAbout: 'About the Academy',
+    groupInfo: 'Information & Contact',
   },
 };

@@ -18,6 +18,7 @@ export default function Header({ locale }: HeaderProps) {
     articles: 'articles',
     admissions: 'admissions',
     charter: 'charter',
+    about: 'about',
     contact: 'contact',
   };
 
