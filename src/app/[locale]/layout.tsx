@@ -1,4 +1,4 @@
-import { locales } from '@/src/lib/i18n-config';
+import { locales, Locale } from '@/src/lib/i18n-config';
 import Header from '@/src/components/Header';
 import Footer from '@/src/components/Footer';
 
@@ -8,24 +8,34 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
-export default function LocaleLayout({
-  children,
-}: Readonly<{
+interface LocaleLayoutProps {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
+  const { locale } = await params;
+  const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
+
   return (
     <>
-      {/* Global Fancy Background */}
-      <div className="fixed inset-0 z-[-1] bg-gradient-to-br from-bg-deep via-bg-elevated to-bg-deep">
-        <div className="absolute top-1/4 left-1/4 w-[40rem] h-[40rem] bg-accent-pink/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[40rem] h-[40rem] bg-accent-cyan/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Subtle vaporwave ambient background */}
+      <div className="fixed inset-0 z-[-1] vaporwave-gradient pointer-events-none">
+        <div className="absolute top-0 right-0 w-[30rem] h-[30rem] rounded-full blur-[100px] opacity-30"
+          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--color-accent-lavender) 40%, transparent) 0%, transparent 70%)' }}
+          aria-hidden="true"
+        />
+        <div className="absolute bottom-0 left-0 w-[24rem] h-[24rem] rounded-full blur-[80px] opacity-20"
+          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--color-accent-blush) 60%, transparent) 0%, transparent 70%)' }}
+          aria-hidden="true"
+        />
       </div>
 
-      <Header />
-      <main className="flex-grow z-0">
+      <Header locale={safeLocale} />
+      <main className="flex-grow z-0" id="main-content">
         {children}
       </main>
-      <Footer />
+      <Footer locale={safeLocale} />
     </>
   );
 }

@@ -8,16 +8,26 @@ interface ButtonProps {
   className?: string;
 }
 
-export default function Button({ href, onClick, children, variant = 'primary', className = '' }: ButtonProps) {
-  const baseClasses = 'inline-flex items-center justify-center px-4 py-2 font-bold transition-all duration-300 rounded-sm focus:outline-none';
-  
+export default function Button({
+  href,
+  onClick,
+  children,
+  variant = 'primary',
+  className = '',
+}: ButtonProps) {
+  const baseClasses =
+    'inline-flex items-center justify-center px-5 py-2.5 font-semibold text-sm transition-all duration-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-purple)]';
+
   let variantClasses = '';
   if (variant === 'primary') {
-    variantClasses = 'bg-transparent border border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-bg-deep shadow-[0_0_10px_rgba(0,240,255,0.3)] hover:shadow-[0_0_20px_rgba(0,240,255,0.6)]';
+    variantClasses =
+      'bg-[var(--color-accent-purple)] text-white hover:bg-[var(--color-accent-pink)] shadow-sm hover:shadow-md';
   } else if (variant === 'secondary') {
-    variantClasses = 'bg-transparent border border-accent-pink text-accent-pink hover:bg-accent-pink hover:text-bg-deep shadow-[0_0_10px_rgba(255,45,149,0.3)] hover:shadow-[0_0_20px_rgba(255,45,149,0.6)]';
+    variantClasses =
+      'bg-[var(--color-accent-blush)] text-[var(--color-accent-pink)] border border-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] hover:text-white';
   } else if (variant === 'outline') {
-    variantClasses = 'bg-transparent border border-text-secondary text-text-primary hover:border-text-primary';
+    variantClasses =
+      'bg-transparent border border-[var(--color-border)] text-[var(--color-text-primary)] hover:border-[var(--color-accent-purple)] hover:text-[var(--color-accent-purple)]';
   }
 
   const classes = `${baseClasses} ${variantClasses} ${className}`;

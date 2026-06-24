@@ -1,94 +1,174 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
 
 @theme {
-  --color-bg-deep: #0a0a14;
-  --color-bg-surface: #13131f;
-  --color-bg-elevated: #1a1a2e;
-  --color-accent-pink: #ff2d95;
-  --color-accent-cyan: #00f0ff;
-  --color-accent-purple: #b44dff;
-  --color-text-primary: #e8e6f0;
-  --color-text-secondary: #8a8a9a;
+  /* White-based Vaporwave palette */
+  --color-bg-page:     #fafafa;
+  --color-bg-surface:  #ffffff;
+  --color-bg-elevated: #f4f2fa;
+  --color-bg-deep:     #ede8f8;
+
+  /* Legacy aliases for dark-mode tokens still referenced in some components */
+  --color-bg-deep-legacy: #0a0a14;
+
+  --color-accent-pink:    #e0176f;
+  --color-accent-cyan:    #0891a8;
+  --color-accent-purple:  #7c3aed;
+  --color-accent-lavender: #c4b5fd;
+  --color-accent-blush:    #fce7f3;
+
+  --color-text-primary:   #1a1025;
+  --color-text-secondary: #6b5e7c;
+  --color-text-muted:     #a89ebe;
+
+  --color-border:         #e5e0f5;
+  --color-border-subtle:  #f0edf9;
 
   --color-cat-amendments: var(--color-accent-cyan);
   --color-cat-statements: var(--color-accent-pink);
   --color-cat-admissions: var(--color-accent-purple);
-  --color-cat-news: var(--color-text-primary);
+  --color-cat-news:       var(--color-text-primary);
 }
 
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background-color: var(--color-bg-deep);
+    background-color: var(--color-bg-page);
     color: var(--color-text-primary);
-    font-family: inherit;
+    font-family: 'Noto Sans JP', 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1.75;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-purple);
+    outline-offset: 3px;
+    border-radius: 3px;
   }
 }
 
 @layer utilities {
-  .decoration-strong {
-    text-shadow: 0 0 10px rgba(255, 45, 149, 0.5);
-  }
-  
-  .decoration-minimal {
-    /* 控えめな装飾。憲章や記事本文向け */
-  }
-
   .text-glow-pink {
-    text-shadow: 0 0 8px var(--color-accent-pink), 0 0 16px var(--color-accent-pink);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--color-accent-pink) 40%, transparent);
   }
 
   .text-glow-cyan {
-    text-shadow: 0 0 8px var(--color-accent-cyan), 0 0 16px var(--color-accent-cyan);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--color-accent-cyan) 40%, transparent);
   }
 
+  .decoration-strong {
+    text-shadow: 0 0 10px color-mix(in srgb, var(--color-accent-pink) 30%, transparent);
+  }
+
+  .decoration-minimal {}
+
   .box-glow-purple {
-    box-shadow: 0 0 15px rgba(180, 77, 255, 0.4);
+    box-shadow: 0 0 18px color-mix(in srgb, var(--color-accent-purple) 20%, transparent);
+  }
+
+  .glass-card {
+    background: color-mix(in srgb, var(--color-bg-surface) 80%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+  }
+
+  .vaporwave-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--color-bg-page) 0%,
+      var(--color-bg-elevated) 50%,
+      color-mix(in srgb, var(--color-accent-lavender) 15%, var(--color-bg-page)) 100%
+    );
   }
 }
 
-/* Markdown コンテンツ用のスタイル (憲章・記事本文) */
+/* Markdown content styles */
 .markdown-body {
-  @apply text-text-primary leading-relaxed;
+  color: var(--color-text-primary);
+  line-height: 1.85;
 }
 
 .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3,
 .markdown-body h4 {
-  @apply font-bold mt-8 mb-4;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
   color: var(--color-text-primary);
 }
 
 .markdown-body h1 {
-  @apply text-3xl border-b border-gray-700 pb-2;
+  font-size: 1.875rem;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.5rem;
 }
 
 .markdown-body h2 {
-  @apply text-2xl border-b border-gray-700 pb-2;
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 0.375rem;
 }
 
 .markdown-body h3 {
-  @apply text-xl;
+  font-size: 1.25rem;
 }
 
 .markdown-body p {
-  @apply mb-4 leading-8;
+  margin-bottom: 1rem;
+  line-height: 2;
 }
 
-.markdown-body ul, .markdown-body ol {
-  @apply mb-4 ml-6 list-disc;
+.markdown-body ul,
+.markdown-body ol {
+  margin-bottom: 1rem;
+  margin-left: 1.5rem;
+  list-style-type: disc;
 }
 
 .markdown-body li {
-  @apply mb-2;
+  margin-bottom: 0.5rem;
 }
 
 .markdown-body a {
-  @apply text-accent-cyan underline underline-offset-2 hover:text-accent-pink transition-colors;
+  color: var(--color-accent-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.markdown-body a:hover {
+  color: var(--color-accent-pink);
 }
 
 .markdown-body blockquote {
-  @apply border-l-4 border-accent-purple pl-4 italic text-text-secondary;
+  border-left: 4px solid var(--color-accent-lavender);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  margin: 1.5rem 0;
+}
+
+.markdown-body code {
+  background: var(--color-bg-elevated);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+.markdown-body pre {
+  background: var(--color-bg-elevated);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
 }

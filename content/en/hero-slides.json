@@ -1,0 +1,10 @@
+[
+  {
+    "id": "slide-1",
+    "title": "Music Game Academy",
+    "subtitle": "An academic fan community dedicated to the cultural heritage of rhythm games.",
+    "image": "/images/hero-01.jpg",
+    "linkUrl": "/en/",
+    "order": 1
+  }
+]

@@ -1,24 +1,20 @@
 import { ArticleCategory, categoryLabels } from '@/src/lib/content-types';
 
-export default function CategoryBadge({ category }: { category: ArticleCategory }) {
-  let colorClass = '';
-  switch (category) {
-    case 'amendments':
-      colorClass = 'text-cat-amendments border-cat-amendments shadow-[0_0_8px_rgba(0,240,255,0.4)]';
-      break;
-    case 'statements':
-      colorClass = 'text-cat-statements border-cat-statements shadow-[0_0_8px_rgba(255,45,149,0.4)]';
-      break;
-    case 'admissions':
-      colorClass = 'text-cat-admissions border-cat-admissions shadow-[0_0_8px_rgba(180,77,255,0.4)]';
-      break;
-    case 'news':
-      colorClass = 'text-cat-news border-cat-news shadow-[0_0_8px_rgba(232,230,240,0.4)]';
-      break;
-  }
+const categoryStyles: Record<ArticleCategory, string> = {
+  amendments:
+    'bg-[color-mix(in_srgb,var(--color-accent-cyan)_10%,transparent)] text-[var(--color-accent-cyan)] border border-[color-mix(in_srgb,var(--color-accent-cyan)_30%,transparent)]',
+  statements:
+    'bg-[color-mix(in_srgb,var(--color-accent-pink)_10%,transparent)] text-[var(--color-accent-pink)] border border-[color-mix(in_srgb,var(--color-accent-pink)_30%,transparent)]',
+  admissions:
+    'bg-[color-mix(in_srgb,var(--color-accent-purple)_10%,transparent)] text-[var(--color-accent-purple)] border border-[color-mix(in_srgb,var(--color-accent-purple)_30%,transparent)]',
+  news: 'bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)] border border-[var(--color-border)]',
+};
 
+export default function CategoryBadge({ category }: { category: ArticleCategory }) {
   return (
-    <span className={`inline-block px-2 py-0.5 text-xs font-bold border rounded-sm ${colorClass}`}>
+    <span
+      className={`inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full ${categoryStyles[category]}`}
+    >
       {categoryLabels[category]}
     </span>
   );
