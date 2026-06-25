@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { HeroSlide } from './content-types';
-import { heroSlidesSchema } from './content-schema';
+import { heroSlidesSchema, parseOrThrow } from './content-schema';
 import { Locale } from './i18n-config';
 
 export function getHeroSlides(locale: Locale = 'ja'): HeroSlide[] {
@@ -12,12 +12,7 @@ export function getHeroSlides(locale: Locale = 'ja'): HeroSlide[] {
   }
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
-  const parsed = heroSlidesSchema.safeParse(JSON.parse(fileContents));
+  const parsed = parseOrThrow(heroSlidesSchema, JSON.parse(fileContents), filePath);
 
-  if (!parsed.success) {
-    console.warn(`[hero-slides] Invalid data in ${filePath}:`, parsed.error.flatten());
-    return [];
-  }
-
-  return parsed.data.sort((a, b) => a.order - b.order);
+  return parsed.sort((a, b) => a.order - b.order);
 }

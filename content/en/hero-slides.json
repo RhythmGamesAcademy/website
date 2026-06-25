@@ -5,6 +5,7 @@
     "subtitle": "An academic fan community dedicated to the cultural heritage of rhythm games.",
     "image": "/images/hero-01.jpg",
     "linkUrl": "/en/",
-    "order": 1
+    "order": 1,
+    "decorative": true
   }
 ]

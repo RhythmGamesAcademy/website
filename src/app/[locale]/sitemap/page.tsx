@@ -1,5 +1,5 @@
 import { locales, Locale } from '@/src/lib/i18n-config';
-import { getDictionary } from '@/src/lib/getDictionary';
+import { getDictionary } from '@/src/lib/get-dictionary';
 import { getNavItems, getFooterNavGroups, getFooterBottomLinks } from '@/src/lib/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';

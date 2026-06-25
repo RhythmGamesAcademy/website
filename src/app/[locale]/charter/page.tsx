@@ -3,7 +3,8 @@ import path from 'path';
 import matter from 'gray-matter';
 import { locales, Locale } from '@/src/lib/i18n-config';
 import { renderMarkdownToHtml } from '@/src/lib/markdown';
-import { getDictionary } from '@/src/lib/getDictionary';
+import { parseOrThrow, translationStatusSchema } from '@/src/lib/content-schema';
+import { getDictionary } from '@/src/lib/get-dictionary';
 import type { Metadata } from 'next';
 
 interface CharterPageProps {
@@ -32,7 +33,10 @@ export default async function CharterPage({ params }: CharterPageProps) {
 
   const filePath = path.join(process.cwd(), 'content', safeLocale, 'charter', 'charter.md');
   const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { content } = matter(fileContents);
+  const { data, content } = matter(fileContents);
+  const translationStatus = data.translationStatus
+    ? parseOrThrow(translationStatusSchema, data.translationStatus, filePath)
+    : 'published';
   const contentHtml = await renderMarkdownToHtml(content);
 
   return (
@@ -40,6 +44,13 @@ export default async function CharterPage({ params }: CharterPageProps) {
       <h1 className="mb-12 text-4xl md:text-5xl font-bold text-center text-[var(--color-text-primary)]">
         {dict.nav.charter}
       </h1>
+      {translationStatus === 'placeholder' && (
+        <p className="mb-8 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4 text-sm text-[var(--color-text-secondary)]">
+          {safeLocale === 'ja'
+            ? '本ページは日本語版が正本です。'
+            : 'The Japanese version of the Charter is the authoritative version.'}
+        </p>
+      )}
       <article
         className="markdown-body"
         dangerouslySetInnerHTML={{ __html: contentHtml }}

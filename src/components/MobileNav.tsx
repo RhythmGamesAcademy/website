@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { Locale } from '@/src/lib/i18n-config';
 import { NavItem } from '@/src/lib/navigation';
 import { Dictionary } from '@/src/lib/dictionaries/ja';
+import { LocaleRouteMap } from '@/src/lib/locale-route-utils';
 import LanguageSwitcher from './LanguageSwitcher';
 
 interface MobileNavProps {
   locale: Locale;
   navItems: NavItem[];
   dict: Dictionary;
+  routeMap: LocaleRouteMap;
 }
 
 const navLabelKeys: Record<string, keyof Dictionary['nav']> = {
@@ -22,11 +24,10 @@ const navLabelKeys: Record<string, keyof Dictionary['nav']> = {
   contact: 'contact',
 };
 
-export default function MobileNav({ locale, navItems, dict }: MobileNavProps) {
+export default function MobileNav({ locale, navItems, dict, routeMap }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close on outside click
   useEffect(() => {
     if (!isOpen) return;
     function handleClickOutside(e: MouseEvent) {
@@ -38,7 +39,6 @@ export default function MobileNav({ locale, navItems, dict }: MobileNavProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // Close on Escape
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') setIsOpen(false);
@@ -50,9 +50,10 @@ export default function MobileNav({ locale, navItems, dict }: MobileNavProps) {
   return (
     <div className="md:hidden" ref={menuRef}>
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 text-[var(--color-text-primary)] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-purple)]"
-        aria-label={isOpen ? 'メニューを閉じる' : 'メニューを開く'}
+        aria-label={isOpen ? dict.mobileNav.close : dict.mobileNav.open}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
       >
@@ -107,7 +108,11 @@ export default function MobileNav({ locale, navItems, dict }: MobileNavProps) {
               );
             })}
             <div className="pt-2 border-t border-[var(--color-border-subtle)]">
-              <LanguageSwitcher currentLocale={locale} />
+              <LanguageSwitcher
+                currentLocale={locale}
+                routeMap={routeMap}
+                dict={dict}
+              />
             </div>
           </nav>
         </div>

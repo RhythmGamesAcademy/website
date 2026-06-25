@@ -1,11 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import { notFound } from 'next/navigation';
-import matter from 'gray-matter';
 import { locales, Locale } from '@/src/lib/i18n-config';
-import { renderMarkdownToHtml } from '@/src/lib/markdown';
-import { policyFrontmatterSchema } from '@/src/lib/content-schema';
-import { getDictionary } from '@/src/lib/getDictionary';
+import { parseMarkdownFile } from '@/src/lib/markdown';
+import { parseOrThrow, policyFrontmatterSchema } from '@/src/lib/content-schema';
 import type { Metadata } from 'next';
 
 type PolicySlug = 'privacy' | 'site-policy' | 'accessibility';
@@ -15,10 +13,29 @@ interface PolicyPageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-export function generateStaticParams() {
-  return locales.flatMap((locale) =>
-    POLICY_SLUGS.map((slug) => ({ locale, slug }))
-  );
+async function getPublishedPolicySlugs(locale: Locale): Promise<PolicySlug[]> {
+  const published: PolicySlug[] = [];
+  for (const slug of POLICY_SLUGS) {
+    const filePath = path.join(process.cwd(), 'content', locale, 'policies', `${slug}.md`);
+    if (!fs.existsSync(filePath)) continue;
+    const { frontmatter } = await parseMarkdownFile(filePath);
+    const parsed = parseOrThrow(policyFrontmatterSchema, frontmatter, filePath);
+    if (parsed.translationStatus === 'published') {
+      published.push(slug);
+    }
+  }
+  return published;
+}
+
+export async function generateStaticParams() {
+  const result = [];
+  for (const locale of locales) {
+    const slugs = await getPublishedPolicySlugs(locale);
+    for (const slug of slugs) {
+      result.push({ locale, slug });
+    }
+  }
+  return result;
 }
 
 export const dynamicParams = false;
@@ -28,33 +45,37 @@ export async function generateMetadata({ params }: PolicyPageProps): Promise<Met
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
   const filePath = path.join(process.cwd(), 'content', safeLocale, 'policies', `${slug}.md`);
   if (!fs.existsSync(filePath)) return { title: '404 | 音楽ゲーム学園' };
-  const { data } = matter(fs.readFileSync(filePath, 'utf8'));
-  const parsed = policyFrontmatterSchema.safeParse(data);
-  const title = parsed.success ? parsed.data.title : slug;
-  return { title: `${title} | 音楽ゲーム学園` };
+  const { frontmatter } = await parseMarkdownFile(filePath);
+  const parsed = parseOrThrow(policyFrontmatterSchema, frontmatter, filePath);
+  return { title: `${parsed.title} | 音楽ゲーム学園` };
 }
 
 export default async function PolicyPage({ params }: PolicyPageProps) {
   const { locale, slug } = await params;
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
 
+  if (!POLICY_SLUGS.includes(slug as PolicySlug)) {
+    notFound();
+  }
+
   const filePath = path.join(process.cwd(), 'content', safeLocale, 'policies', `${slug}.md`);
   if (!fs.existsSync(filePath)) notFound();
 
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContents);
-  const parsed = policyFrontmatterSchema.safeParse(data);
-  const frontmatter = parsed.success ? parsed.data : { title: slug, updatedAt: undefined };
-  const contentHtml = await renderMarkdownToHtml(content);
+  const { frontmatter, contentHtml } = await parseMarkdownFile(filePath);
+  const parsed = parseOrThrow(policyFrontmatterSchema, frontmatter, filePath);
+
+  if (parsed.translationStatus !== 'published') {
+    notFound();
+  }
 
   return (
     <div className="container px-4 py-12 mx-auto md:px-6 max-w-3xl">
       <h1 className="mb-4 text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] border-b border-[var(--color-border)] pb-4">
-        {frontmatter.title}
+        {parsed.title}
       </h1>
-      {frontmatter.updatedAt && (
+      {parsed.updatedAt && (
         <p className="text-sm text-[var(--color-text-muted)] mb-8">
-          最終更新: {frontmatter.updatedAt}
+          {safeLocale === 'ja' ? '最終更新' : 'Last updated'}: {parsed.updatedAt}
         </p>
       )}
       <article

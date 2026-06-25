@@ -1,4 +1,5 @@
-import { ArticleCategory, categoryLabels } from '@/src/lib/content-types';
+import { ArticleCategory, getCategoryLabels } from '@/src/lib/content-types';
+import { Locale } from '@/src/lib/i18n-config';
 
 const categoryStyles: Record<ArticleCategory, string> = {
   amendments:
@@ -10,12 +11,20 @@ const categoryStyles: Record<ArticleCategory, string> = {
   news: 'bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)] border border-[var(--color-border)]',
 };
 
-export default function CategoryBadge({ category }: { category: ArticleCategory }) {
+export default function CategoryBadge({
+  category,
+  locale,
+}: {
+  category: ArticleCategory;
+  locale: Locale;
+}) {
+  const labels = getCategoryLabels(locale);
+
   return (
     <span
       className={`inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full ${categoryStyles[category]}`}
     >
-      {categoryLabels[category]}
+      {labels[category]}
     </span>
   );
 }

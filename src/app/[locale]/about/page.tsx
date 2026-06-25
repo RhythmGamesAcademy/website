@@ -1,5 +1,5 @@
 import { locales, Locale } from '@/src/lib/i18n-config';
-import { getDictionary } from '@/src/lib/getDictionary';
+import { getDictionary } from '@/src/lib/get-dictionary';
 import { localizedPath } from '@/src/lib/paths';
 import Link from 'next/link';
 import type { Metadata } from 'next';

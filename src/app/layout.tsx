@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import '@/src/styles/globals.css';
+import { siteConfig } from '@/src/lib/site-config';
+import { defaultLocale } from '@/src/lib/i18n-config';
+import BasePathScript from '@/src/components/BasePathScript';
 
 const notoSansJP = Noto_Sans_JP({ subsets: ['latin'], weight: ['400', '500', '700'] });
-
-import { siteConfig } from '@/src/lib/site-config';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.baseUrl),
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
     template: '%s | 音楽ゲーム学園',
     default: '音楽ゲーム学園',
   },
-  description: '音楽ゲームに関するあらゆる知的・文化的遺産の集積・継承・発展を恒久的な使命とするアカデミックファンコミュニティ。',
+  description:
+    '音楽ゲームに関するあらゆる知的・文化的遺産の集積・継承・発展を恒久的な使命とするアカデミックファンコミュニティ。',
 };
 
 export default function RootLayout({
@@ -21,8 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang={defaultLocale} suppressHydrationWarning>
       <body className={`${notoSansJP.className} min-h-screen flex flex-col relative`}>
+        <BasePathScript />
         {children}
       </body>
     </html>

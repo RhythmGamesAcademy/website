@@ -1,6 +1,6 @@
 import { locales, Locale } from '@/src/lib/i18n-config';
 import { getAllArticles } from '@/src/lib/articles';
-import { getDictionary } from '@/src/lib/getDictionary';
+import { getDictionary } from '@/src/lib/get-dictionary';
 import ArticleList from '@/src/components/ArticleList';
 import type { Metadata } from 'next';
 
@@ -34,7 +34,7 @@ export default async function ArticlesPage({ params }: ArticlesPageProps) {
       <h1 className="mb-8 text-4xl font-bold text-[var(--color-text-primary)] border-b border-[var(--color-border)] pb-4">
         {dict.nav.articles}
       </h1>
-      <ArticleList articles={articles} />
+      <ArticleList articles={articles} locale={safeLocale} />
     </div>
   );
 }

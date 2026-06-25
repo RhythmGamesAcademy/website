@@ -1,6 +1,9 @@
 import { locales, Locale } from '@/src/lib/i18n-config';
 import Header from '@/src/components/Header';
 import Footer from '@/src/components/Footer';
+import SiteSearch from '@/src/components/SiteSearch';
+import SetHtmlLang from '@/src/components/SetHtmlLang';
+import { getDictionary } from '@/src/lib/get-dictionary';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -16,23 +19,30 @@ interface LocaleLayoutProps {
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = await params;
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
+  const dict = getDictionary(safeLocale);
 
   return (
     <>
-      {/* Subtle vaporwave ambient background */}
-      <div className="fixed inset-0 z-[-1] vaporwave-gradient pointer-events-none">
-        <div className="absolute top-0 right-0 w-[30rem] h-[30rem] rounded-full blur-[100px] opacity-30"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--color-accent-lavender) 40%, transparent) 0%, transparent 70%)' }}
-          aria-hidden="true"
-        />
-        <div className="absolute bottom-0 left-0 w-[24rem] h-[24rem] rounded-full blur-[80px] opacity-20"
-          style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--color-accent-blush) 60%, transparent) 0%, transparent 70%)' }}
-          aria-hidden="true"
-        />
-      </div>
+      <SetHtmlLang locale={safeLocale} />
+      <div className="ambient-bg pointer-events-none" aria-hidden="true" />
 
       <Header locale={safeLocale} />
-      <main className="flex-grow z-0" id="main-content">
+
+      <div
+        className="sticky top-16 z-40 border-b border-[var(--color-border-subtle)] bg-[var(--color-bg-surface)]"
+        data-pagefind-ignore
+      >
+        <div className="container px-4 mx-auto md:px-6 py-3">
+          <SiteSearch locale={safeLocale} dict={dict} />
+        </div>
+      </div>
+
+      <main
+        className="flex-grow z-0"
+        id="main-content"
+        data-pagefind-body
+        data-pagefind-filter={`locale:${safeLocale}`}
+      >
         {children}
       </main>
       <Footer locale={safeLocale} />

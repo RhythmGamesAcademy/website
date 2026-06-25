@@ -1,8 +1,18 @@
+function resolveBasePath(): string {
+  if (process.env.GITHUB_ACTIONS) {
+    const repo = process.env.GITHUB_REPOSITORY?.replace(/.*?\//, '') || 'website';
+    return `/${repo}`;
+  }
+  return process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+}
+
 export const siteConfig = {
   name: '音楽ゲーム学園',
+  nameEn: 'Music Game Academy',
   defaultLocale: 'ja',
   contactEmail: 'rhythmgames.academy@gmail.com',
-  discordUrl: null, // Set to string when Discord URL is available
-  baseUrl: 'https://rhythmgamesacademy.github.io/website', // Adjust as needed
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? '',
+  discordUrl: null as string | null,
+  baseUrl: 'https://rhythmgamesacademy.github.io/website',
+  basePath: resolveBasePath(),
+  copyrightYear: 2026,
 };
