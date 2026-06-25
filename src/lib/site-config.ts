@@ -8,7 +8,7 @@ function resolveBasePath(): string {
 
 export const siteConfig = {
   name: '音楽ゲーム学園',
-  nameEn: 'Music Game Academy',
+  nameEn: 'Rhythm Games Academy',
   defaultLocale: 'ja',
   contactEmail: 'rhythmgames.academy@gmail.com',
   discordUrl: null as string | null,

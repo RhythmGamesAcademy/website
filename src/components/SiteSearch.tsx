@@ -15,17 +15,32 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
   const listboxId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const scrollYRef = useRef(0);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pagefindState, setPagefindState] = useState<'loading' | 'ready' | 'unavailable'>('loading');
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     loadPagefind().then((instance) => {
       setPagefindState(instance ? 'ready' : 'unavailable');
     });
+  }, []);
+
+  useEffect(() => {
+    function handleScroll() {
+      const current = window.scrollY;
+      const isScrollingUp = current < scrollYRef.current;
+      const visible = current < 96 || isScrollingUp;
+      scrollYRef.current = current;
+      setIsVisible(visible);
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
@@ -106,11 +121,17 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
   const showPanel = isOpen && query.trim().length > 0;
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-2xl mx-auto">
-      <label htmlFor="site-search-input" className="sr-only">
-        {dict.nav.search}
-      </label>
-      <div className="relative">
+    <div
+      ref={containerRef}
+      className="sticky top-16 z-40 transition-transform duration-300"
+      style={{ transform: isVisible ? 'translateY(0)' : 'translateY(-110%)' }}
+      data-pagefind-ignore
+    >
+      <div className="container px-4 mx-auto md:px-6 py-3">
+        <label htmlFor="site-search-input" className="sr-only">
+          {dict.nav.search}
+        </label>
+        <div className="relative">
         <svg
           className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--color-text-muted)]"
           viewBox="0 0 20 20"
@@ -206,6 +227,7 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 }

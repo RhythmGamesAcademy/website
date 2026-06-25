@@ -12,8 +12,8 @@ import {
 } from './content-schema';
 import { LocaleRouteMap } from './locale-route-utils';
 
-function isAvailable(status: TranslationStatus | undefined): boolean {
-  return (status ?? 'published') === 'published';
+function isAvailable(status: TranslationStatus | 'missing' | undefined): boolean {
+  return status !== undefined && status !== 'missing' && status !== 'draft';
 }
 
 function readPolicyStatus(locale: Locale, slug: string): TranslationStatus | 'missing' {

@@ -12,7 +12,7 @@ interface CategoryPageProps {
 export async function generateStaticParams() {
   const result = [];
   for (const locale of locales) {
-    const slugs = await getAllArticleSlugs(locale, { publishedOnly: true });
+    const slugs = await getAllArticleSlugs(locale, { publishedOnly: false });
     const categories = [...new Set(slugs.map((s) => s.category))];
     for (const category of categories) {
       result.push({ locale, category });
@@ -39,7 +39,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const articles = await getArticlesByCategory(category, safeLocale);
+  const articles = await getArticlesByCategory(category, safeLocale, { includePlaceholders: true });
   const labels = getCategoryLabels(safeLocale);
 
   return (

@@ -16,7 +16,7 @@ interface ArticlePageProps {
 export async function generateStaticParams() {
   const result = [];
   for (const locale of locales) {
-    const slugs = await getAllArticleSlugs(locale, { publishedOnly: true });
+    const slugs = await getAllArticleSlugs(locale, { publishedOnly: false });
     for (const { category, slug } of slugs) {
       result.push({ locale, category, slug });
     }
@@ -29,11 +29,11 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { locale, category, slug } = await params;
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
-  const article = await getArticle(category, slug, safeLocale);
+  const article = await getArticle(category, slug, safeLocale, { includePlaceholder: true });
   if (!article) return { title: '404 | 音楽ゲーム学園' };
 
   const alternateLocale: Locale = safeLocale === 'ja' ? 'en' : 'ja';
-  const alternateArticle = await getArticle(category, slug, alternateLocale);
+  const alternateArticle = await getArticle(category, slug, alternateLocale, { includePlaceholder: true });
 
   return {
     title: `${article.title} | 音楽ゲーム学園`,
@@ -66,7 +66,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
-  const article = await getArticle(category, slug, safeLocale);
+  const article = await getArticle(category, slug, safeLocale, { includePlaceholder: true });
   if (!article) notFound();
 
   const categoryLabels = getCategoryLabels(safeLocale);

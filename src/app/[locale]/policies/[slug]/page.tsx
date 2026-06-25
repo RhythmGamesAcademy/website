@@ -20,7 +20,7 @@ async function getPublishedPolicySlugs(locale: Locale): Promise<PolicySlug[]> {
     if (!fs.existsSync(filePath)) continue;
     const { frontmatter } = await parseMarkdownFile(filePath);
     const parsed = parseOrThrow(policyFrontmatterSchema, frontmatter, filePath);
-    if (parsed.translationStatus === 'published') {
+    if (parsed.translationStatus !== 'draft') {
       published.push(slug);
     }
   }
@@ -64,7 +64,7 @@ export default async function PolicyPage({ params }: PolicyPageProps) {
   const { frontmatter, contentHtml } = await parseMarkdownFile(filePath);
   const parsed = parseOrThrow(policyFrontmatterSchema, frontmatter, filePath);
 
-  if (parsed.translationStatus !== 'published') {
+  if (parsed.translationStatus === 'draft') {
     notFound();
   }
 
@@ -76,6 +76,13 @@ export default async function PolicyPage({ params }: PolicyPageProps) {
       {parsed.updatedAt && (
         <p className="text-sm text-[var(--color-text-muted)] mb-8">
           {safeLocale === 'ja' ? '最終更新' : 'Last updated'}: {parsed.updatedAt}
+        </p>
+      )}
+      {parsed.translationStatus === 'placeholder' && (
+        <p className="mb-8 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4 text-sm text-[var(--color-text-secondary)]">
+          {safeLocale === 'ja'
+            ? '本ページは日本語版が正本です。'
+            : 'The Japanese version of this page is the authoritative version.'}
         </p>
       )}
       <article

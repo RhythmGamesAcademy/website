@@ -27,7 +27,7 @@ export default async function ArticlesPage({ params }: ArticlesPageProps) {
   const { locale } = await params;
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
   const dict = getDictionary(safeLocale);
-  const articles = await getAllArticles(safeLocale);
+  const articles = await getAllArticles(safeLocale, { includePlaceholders: true });
 
   return (
     <div className="container px-4 py-12 mx-auto md:px-6">

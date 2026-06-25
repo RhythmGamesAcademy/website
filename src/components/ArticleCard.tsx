@@ -12,9 +12,12 @@ export default function ArticleCard({
   locale: Locale;
 }) {
   return (
-    <Link href={localizedPath(locale, `/articles/${article.category}/${article.slug}`)}>
-      <article className="flex flex-col h-full p-5 border border-[var(--color-border)] bg-[var(--color-bg-surface)] rounded-md transition-colors hover:border-[color-mix(in_srgb,var(--color-accent-purple)_35%,var(--color-border))] group">
-        <div className="flex items-center justify-between mb-3">
+    <Link
+      href={localizedPath(locale, `/articles/${article.category}/${article.slug}`)}
+      className="block rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-5 transition-shadow duration-200 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
+    >
+      <div className="flex flex-col h-full gap-4">
+        <div className="flex items-center justify-between gap-4">
           <CategoryBadge category={article.category} locale={locale} />
           <time
             className="text-xs text-[var(--color-text-muted)]"
@@ -23,15 +26,17 @@ export default function ArticleCard({
             {formatArticleDate(article.date, locale)}
           </time>
         </div>
-        <h3 className="mb-2 text-base font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-purple)] transition-colors leading-snug">
-          {article.title}
-        </h3>
-        {article.excerpt && (
-          <p className="text-sm text-[var(--color-text-secondary)] line-clamp-3 mt-auto leading-relaxed">
-            {article.excerpt}
-          </p>
-        )}
-      </article>
+        <div>
+          <h3 className="text-lg font-bold text-[var(--color-text-primary)] leading-snug">
+            {article.title}
+          </h3>
+          {article.excerpt && (
+            <p className="mt-3 text-sm text-[var(--color-text-secondary)] leading-relaxed line-clamp-3">
+              {article.excerpt}
+            </p>
+          )}
+        </div>
+      </div>
     </Link>
   );
 }

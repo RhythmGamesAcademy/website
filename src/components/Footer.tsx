@@ -53,6 +53,12 @@ export default function Footer({ locale }: FooterProps) {
 
       <div className="py-8 border-t border-[var(--color-border-subtle)]">
         <div className="container px-4 mx-auto md:px-6">
+          <div className="mb-6">
+            <div className="flex items-center justify-center w-12 h-12 rounded-md bg-[var(--color-accent-pink)] text-[var(--color-bg-page)] text-xs font-bold tracking-widest">
+              LOGO
+            </div>
+          </div>
+
           <div className="flex flex-col md:flex-row justify-between items-start mb-6 gap-6">
             <div>
               <div className="text-sm font-semibold text-[var(--color-text-primary)]">
@@ -81,7 +87,7 @@ export default function Footer({ locale }: FooterProps) {
 
           <div className="flex flex-col md:flex-row justify-between items-center pt-5 border-t border-[var(--color-border-subtle)] text-xs text-[var(--color-text-muted)] gap-3">
             <span>
-              &copy; {siteConfig.copyrightYear} {siteConfig.name}
+              &copy; {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
             </span>
             <span>{dict.footer.managedBy}</span>
           </div>

@@ -2,7 +2,7 @@ export const ja = {
   siteName: '音楽ゲーム学園',
   nav: {
     home: 'ホーム',
-    articles: 'ノーツ',
+    articles: 'ニュース',
     admissions: '入学案内',
     charter: '学園憲章',
     about: '学園について',
@@ -25,6 +25,7 @@ export const ja = {
   },
   articles: {
     empty: '記事がありません。',
+    all: 'すべて',
   },
   hero: {
     viewDetails: '詳細を見る',

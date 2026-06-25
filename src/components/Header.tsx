@@ -32,8 +32,11 @@ export default function Header({ locale }: HeaderProps) {
       <div className="container flex items-center justify-between h-16 px-4 mx-auto md:px-6">
         <Link
           href={`/${locale}/`}
-          className="flex items-center gap-2 transition-colors hover:text-[var(--color-accent-purple)]"
+          className="flex items-center gap-3 transition-colors hover:text-[var(--color-accent-purple)]"
         >
+          <div className="flex items-center justify-center w-10 h-10 rounded-md bg-[var(--color-accent-pink)] text-[var(--color-bg-page)] text-xs font-bold tracking-widest">
+            LOGO
+          </div>
           <span className="text-lg font-semibold tracking-wide text-[var(--color-text-primary)]">
             {siteTitle}
           </span>

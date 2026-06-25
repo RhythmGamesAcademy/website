@@ -13,11 +13,16 @@ function isPublishedArticle(translationStatus: string): boolean {
   return translationStatus === 'published';
 }
 
+function isVisibleArticle(translationStatus: string, includePlaceholders: boolean) {
+  if (translationStatus === 'draft') return false;
+  return includePlaceholders ? true : isPublishedArticle(translationStatus);
+}
+
 export async function getAllArticles(
   locale: Locale = 'ja',
-  options: { includeUnpublished?: boolean } = {}
+  options: { includePlaceholders?: boolean } = {}
 ): Promise<Article[]> {
-  const { includeUnpublished = false } = options;
+  const { includePlaceholders = false } = options;
   const articlesDirectory = getArticlesDirectory(locale);
   const allArticles: Article[] = [];
 
@@ -34,7 +39,7 @@ export async function getAllArticles(
       const { frontmatter, contentHtml } = await parseMarkdownFile(fullPath);
       const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
 
-      if (!includeUnpublished && !isPublishedArticle(parsed.translationStatus)) {
+      if (!isVisibleArticle(parsed.translationStatus, includePlaceholders)) {
         continue;
       }
 
@@ -55,17 +60,20 @@ export async function getAllArticles(
 
 export async function getArticlesByCategory(
   category: ArticleCategory,
-  locale: Locale = 'ja'
+  locale: Locale = 'ja',
+  options: { includePlaceholders?: boolean } = {}
 ): Promise<Article[]> {
-  const allArticles = await getAllArticles(locale);
+  const allArticles = await getAllArticles(locale, options);
   return allArticles.filter((article) => article.category === category);
 }
 
 export async function getArticle(
   category: string,
   slug: string,
-  locale: Locale = 'ja'
+  locale: Locale = 'ja',
+  options: { includePlaceholder?: boolean } = {}
 ): Promise<Article | null> {
+  const { includePlaceholder = false } = options;
   if (!isArticleCategory(category)) {
     return null;
   }
@@ -77,7 +85,7 @@ export async function getArticle(
   const { frontmatter, contentHtml } = await parseMarkdownFile(fullPath);
   const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
 
-  if (!isPublishedArticle(parsed.translationStatus)) {
+  if (!isVisibleArticle(parsed.translationStatus, includePlaceholder)) {
     return null;
   }
 
@@ -114,6 +122,12 @@ export async function getAllArticleSlugs(
         const { frontmatter } = await parseMarkdownFile(fullPath);
         const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
         if (!isPublishedArticle(parsed.translationStatus)) {
+          continue;
+        }
+      } else {
+        const { frontmatter } = await parseMarkdownFile(fullPath);
+        const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
+        if (parsed.translationStatus === 'draft') {
           continue;
         }
       }

@@ -1,10 +1,10 @@
 import { Dictionary } from './ja';
 
 export const en: Dictionary = {
-  siteName: 'Music Game Academy',
+  siteName: 'Rhythm Games Academy',
   nav: {
     home: 'Home',
-    articles: 'Notes',
+    articles: 'News',
     admissions: 'Admissions',
     charter: 'Charter',
     about: 'About',
@@ -26,7 +26,8 @@ export const en: Dictionary = {
     viewAll: 'View all',
   },
   articles: {
-    empty: 'No articles yet.',
+    empty: 'No news available.',
+    all: 'All',
   },
   hero: {
     viewDetails: 'Learn more',

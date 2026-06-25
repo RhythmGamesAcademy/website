@@ -2,6 +2,7 @@ import { locales, Locale } from '@/src/lib/i18n-config';
 import Header from '@/src/components/Header';
 import Footer from '@/src/components/Footer';
 import SiteSearch from '@/src/components/SiteSearch';
+import Breadcrumbs from '@/src/components/Breadcrumbs';
 import SetHtmlLang from '@/src/components/SetHtmlLang';
 import { getDictionary } from '@/src/lib/get-dictionary';
 
@@ -27,15 +28,8 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       <div className="ambient-bg pointer-events-none" aria-hidden="true" />
 
       <Header locale={safeLocale} />
-
-      <div
-        className="sticky top-16 z-40 border-b border-[var(--color-border-subtle)] bg-[var(--color-bg-surface)]"
-        data-pagefind-ignore
-      >
-        <div className="container px-4 mx-auto md:px-6 py-3">
-          <SiteSearch locale={safeLocale} dict={dict} />
-        </div>
-      </div>
+      <Breadcrumbs locale={safeLocale} />
+      <SiteSearch locale={safeLocale} dict={dict} />
 
       <main
         className="flex-grow z-0"
