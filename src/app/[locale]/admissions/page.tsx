@@ -56,9 +56,10 @@ export default async function AdmissionsPage({ params }: AdmissionsPageProps) {
 
   return (
     <div className="container px-4 py-12 mx-auto md:px-6 max-w-3xl">
-      <h1 className="mb-10 text-4xl font-bold text-[var(--color-text-primary)]">
-        {frontmatter.title}
-      </h1>
+      <div className="content-surface p-6">
+        <h1 className="mb-10 text-4xl font-bold text-[var(--color-text-primary)]">
+          {frontmatter.title}
+        </h1>
       {translationStatus === 'placeholder' && (
         <p className="mb-8 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4 text-sm text-[var(--color-text-secondary)]">
           {safeLocale === 'ja'
@@ -66,7 +67,8 @@ export default async function AdmissionsPage({ params }: AdmissionsPageProps) {
             : 'This page is currently under preparation. Please refer to the Japanese page for the latest information.'}
         </p>
       )}
-      <article className="markdown-body" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+        <article className="markdown-body" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+      </div>
     </div>
   );
 }

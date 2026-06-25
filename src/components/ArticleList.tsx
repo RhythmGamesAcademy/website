@@ -17,10 +17,7 @@ export default function ArticleList({
 }) {
   const dict = getDictionary(locale);
   const categoryLabels = getCategoryLabels(locale);
-  const categories = [
-    allCategoryKey,
-    ...ARTICLE_CATEGORIES.filter((category) => category !== 'admissions'),
-  ] as const;
+  const categories = [allCategoryKey, ...ARTICLE_CATEGORIES] as const;
   const [selectedCategory, setSelectedCategory] = useState<typeof categories[number]>(allCategoryKey);
 
   const filteredArticles = useMemo(() => {

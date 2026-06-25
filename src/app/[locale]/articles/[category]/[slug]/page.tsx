@@ -73,21 +73,23 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <div className="container px-4 py-12 mx-auto md:px-6 max-w-3xl">
-      <div className="mb-4">
-        <span className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent-purple)]">
-          {categoryLabels[article.category]}
-        </span>
+      <div className="content-surface p-6">
+        <div className="mb-4">
+          <span className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent-purple)]">
+            {categoryLabels[article.category]}
+          </span>
+        </div>
+        <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">
+          {article.title}
+        </h1>
+        <p className="text-sm text-[var(--color-text-muted)] mb-8">
+          <time dateTime={article.date}>{formatArticleDate(article.date, safeLocale)}</time>
+        </p>
+        <article
+          className="markdown-body"
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
       </div>
-      <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">
-        {article.title}
-      </h1>
-      <p className="text-sm text-[var(--color-text-muted)] mb-8">
-        <time dateTime={article.date}>{formatArticleDate(article.date, safeLocale)}</time>
-      </p>
-      <article
-        className="markdown-body"
-        dangerouslySetInnerHTML={{ __html: article.content }}
-      />
     </div>
   );
 }

@@ -27,16 +27,16 @@ export default async function ArticlesPage({ params }: ArticlesPageProps) {
   const { locale } = await params;
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
   const dict = getDictionary(safeLocale);
-  const articles = (
-    await getAllArticles(safeLocale, { includePlaceholders: true })
-  ).filter((article) => article.category !== 'admissions');
+  const articles = await getAllArticles(safeLocale, { includePlaceholders: true });
 
   return (
     <div className="container px-4 py-12 mx-auto md:px-6">
-      <h1 className="mb-8 text-4xl font-bold text-[var(--color-text-primary)] border-b border-[var(--color-border)] pb-4">
-        {dict.nav.articles}
-      </h1>
-      <ArticleList articles={articles} locale={safeLocale} />
+      <div className="content-surface p-6">
+        <h1 className="mb-8 text-4xl font-bold text-[var(--color-text-primary)] border-b border-[var(--color-border)] pb-4">
+          {dict.nav.articles}
+        </h1>
+        <ArticleList articles={articles} locale={safeLocale} />
+      </div>
     </div>
   );
 }

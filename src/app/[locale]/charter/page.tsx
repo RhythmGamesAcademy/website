@@ -41,20 +41,22 @@ export default async function CharterPage({ params }: CharterPageProps) {
 
   return (
     <div className="container px-4 py-12 mx-auto md:px-6 max-w-3xl">
-      <h1 className="mb-12 text-4xl md:text-5xl font-bold text-center text-[var(--color-text-primary)]">
-        {dict.nav.charter}
-      </h1>
-      {translationStatus === 'placeholder' && (
-        <p className="mb-8 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4 text-sm text-[var(--color-text-secondary)]">
-          {safeLocale === 'ja'
-            ? '本ページは日本語版が正本です。'
-            : 'The Japanese version of the Charter is the authoritative version.'}
-        </p>
-      )}
-      <article
-        className="markdown-body"
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
-      />
+      <div className="content-surface p-6">
+        <h1 className="mb-12 text-4xl md:text-5xl font-bold text-center text-[var(--color-text-primary)]">
+          {dict.nav.charter}
+        </h1>
+        {translationStatus === 'placeholder' && (
+          <p className="mb-8 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4 text-sm text-[var(--color-text-secondary)]">
+            {safeLocale === 'ja'
+              ? '本ページは日本語版が正本です。'
+              : 'The Japanese version of the Charter is the authoritative version.'}
+          </p>
+        )}
+        <article
+          className="markdown-body"
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
+        />
+      </div>
     </div>
   );
 }
