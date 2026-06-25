@@ -1,12 +1,11 @@
 import { TranslationStatus } from './content-schema';
 import { Locale } from './i18n-config';
 
-export type ArticleCategory = 'amendments' | 'statements' | 'admissions' | 'news';
+export type ArticleCategory = 'amendments' | 'statements' | 'news';
 
 export const ARTICLE_CATEGORIES: ArticleCategory[] = [
   'amendments',
   'statements',
-  'admissions',
   'news',
 ];
 
@@ -40,13 +39,11 @@ export function getCategoryLabels(locale: Locale): Record<ArticleCategory, strin
     ja: {
       amendments: '規則改正',
       statements: '声明',
-      admissions: '入学案内',
       news: 'お知らせ',
     },
     en: {
       amendments: 'Amendments',
       statements: 'Statements',
-      admissions: 'Admissions',
       news: 'News',
     },
   };

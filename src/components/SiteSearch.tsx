@@ -25,9 +25,28 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    loadPagefind().then((instance) => {
-      setPagefindState(instance ? 'ready' : 'unavailable');
-    });
+    let mounted = true;
+    let attempts = 0;
+
+    async function tryLoad() {
+      const instance = await loadPagefind();
+      if (!mounted) return;
+      if (instance) {
+        setPagefindState('ready');
+        return;
+      }
+      attempts += 1;
+      if (attempts < 3) {
+        window.setTimeout(tryLoad, 400);
+      } else {
+        setPagefindState('unavailable');
+      }
+    }
+
+    void tryLoad();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {

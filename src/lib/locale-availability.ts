@@ -46,11 +46,20 @@ function readOrganizationStatus(locale: Locale): TranslationStatus | 'missing' {
   return parsed.translationStatus;
 }
 
+function readAdmissionsStatus(locale: Locale): TranslationStatus | 'missing' {
+  const filePath = path.join(process.cwd(), 'content', locale, 'articles', 'admissions', 'how-to-join.md');
+  if (!fs.existsSync(filePath)) return 'missing';
+  const { data } = matter(fs.readFileSync(filePath, 'utf8'));
+  const parsed = parseOrThrow(articleFrontmatterSchema, data, filePath);
+  return parsed.translationStatus;
+}
+
 export function buildLocaleRouteMap(): LocaleRouteMap {
   const map: LocaleRouteMap = {};
   const staticPaths = [
     '/',
     '/articles',
+    '/admissions',
     '/charter',
     '/about',
     '/about/organization',
@@ -106,6 +115,12 @@ export function buildLocaleRouteMap(): LocaleRouteMap {
       const status = readPolicyStatus(locale, slug);
       map[route]![locale] = status !== 'missing' && isAvailable(status as TranslationStatus);
     }
+  }
+
+  map['/admissions'] = {};
+  for (const locale of locales) {
+    const status = readAdmissionsStatus(locale);
+    map['/admissions']![locale] = status !== 'missing' && isAvailable(status as TranslationStatus);
   }
 
   return map;

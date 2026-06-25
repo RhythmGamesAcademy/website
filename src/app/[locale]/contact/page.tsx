@@ -50,7 +50,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
             <h3 className="!mt-12 !border-b !border-[var(--color-border-subtle)] !pb-2">Discord コミュニティ</h3>
             <p>
               学園の日常的な議論や交流は、専用の Discord サーバーにて行われています。<br />
-              参加をご希望の方は、<a href={`/${safeLocale}/articles/admissions/how-to-join/`}>入学案内</a>のページをご確認ください。
+              参加をご希望の方は、<a href={`/${safeLocale}/admissions/`}>Admission</a>のページをご確認ください。
             </p>
           </>
         ) : (
@@ -70,7 +70,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
             <h3 className="!mt-12 !border-b !border-[var(--color-border-subtle)] !pb-2">Discord Community</h3>
             <p>
               Daily discussions and interactions take place on our dedicated Discord server.<br />
-              If you wish to join, please check the <a href={`/${safeLocale}/articles/admissions/how-to-join/`}>Admissions</a> page.
+              If you wish to join, please check the <a href={`/${safeLocale}/admissions/`}>Admissions</a> page.
             </p>
           </>
         )}

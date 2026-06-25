@@ -17,7 +17,10 @@ export default function ArticleList({
 }) {
   const dict = getDictionary(locale);
   const categoryLabels = getCategoryLabels(locale);
-  const categories = [allCategoryKey, ...ARTICLE_CATEGORIES] as const;
+  const categories = [
+    allCategoryKey,
+    ...ARTICLE_CATEGORIES.filter((category) => category !== 'admissions'),
+  ] as const;
   const [selectedCategory, setSelectedCategory] = useState<typeof categories[number]>(allCategoryKey);
 
   const filteredArticles = useMemo(() => {
@@ -35,7 +38,7 @@ export default function ArticleList({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2 border-b border-[var(--color-border)] pb-4">
+      <div className="flex flex-wrap items-end gap-2 border-b border-[var(--color-border)] pb-1">
         {categories.map((category) => {
           const label =
             category === allCategoryKey ? dict.articles.all : categoryLabels[category];
@@ -45,10 +48,10 @@ export default function ArticleList({
               key={category}
               type="button"
               onClick={() => setSelectedCategory(category)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`border-b-2 pb-3 text-sm font-semibold transition ${
                 isActive
-                  ? 'bg-[var(--color-accent-pink)] text-[var(--color-bg-page)]'
-                  : 'bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-surface)]'
+                  ? 'border-[var(--color-accent-pink)] text-[var(--color-text-primary)]'
+                  : 'border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
               }`}
             >
               {label}

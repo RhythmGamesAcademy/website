@@ -2,24 +2,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-page:     #faf9f8;
-  --color-bg-surface:  #ffffff;
-  --color-bg-elevated: #f5f2f4;
-  --color-bg-deep:     #eee4ea;
+  --color-bg-page:     #14051f;
+  --color-bg-surface:  rgba(24, 9, 44, 0.88);
+  --color-bg-elevated: rgba(34, 13, 70, 0.9);
+  --color-bg-deep:     #0f0818;
 
-  --color-accent-pink:    #8f4a72;
-  --color-accent-cyan:    #4a7575;
-  --color-accent-purple:  #6f6294;
-  --color-accent-lavender: #e8e2ef;
-  --color-accent-blush:    #eee4ea;
+  --color-accent-pink:    #ff64d0;
+  --color-accent-cyan:    #6af0ff;
+  --color-accent-purple:  #b36cff;
+  --color-accent-lavender: #d9c2ff;
+  --color-accent-blush:    #f2d5ff;
 
-  --color-text-primary:   #1f1c22;
-  --color-text-secondary: #5c5660;
-  --color-text-muted:     #8f8994;
+  --color-text-primary:   #f7f1ff;
+  --color-text-secondary: #c8b7ff;
+  --color-text-muted:     #a59ad8;
 
-  --color-border:         #e6e2e5;
-  --color-border-subtle:  #f0ecef;
-  --color-border-strong:  #3d3840;
+  --color-border:         rgba(255,255,255,0.12);
+  --color-border-subtle:  rgba(255,255,255,0.08);
+  --color-border-strong:  rgba(255,255,255,0.24);
 
   --color-cat-amendments: var(--color-accent-cyan);
   --color-cat-statements: var(--color-accent-pink);
@@ -38,11 +38,14 @@
 
   body {
     background-color: var(--color-bg-page);
+    background-image: radial-gradient(circle at top left, rgba(255, 180, 255, 0.16), transparent 18%),
+      radial-gradient(circle at bottom right, rgba(108, 233, 255, 0.12), transparent 22%);
     color: var(--color-text-primary);
     font-family: 'Noto Sans JP', 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.75;
+    overflow-x: hidden;
   }
 
   :focus-visible {
@@ -57,8 +60,13 @@
     position: fixed;
     inset: 0;
     z-index: -1;
-    background:
-      linear-gradient(180deg, var(--color-bg-page) 0%, color-mix(in srgb, var(--color-accent-lavender) 8%, var(--color-bg-page)) 100%);
+    background-image:
+      radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 24%),
+      radial-gradient(circle at bottom right, rgba(110, 233, 255, 0.16), transparent 26%),
+      url('/images/hero-01.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: saturate(1.1) brightness(0.96);
   }
 
   .section-heading {
@@ -69,6 +77,12 @@
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-color: color-mix(in srgb, var(--color-accent-purple) 35%, transparent);
+  }
+
+  .glass-panel {
+    background: var(--color-bg-surface);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
   }
 }
 

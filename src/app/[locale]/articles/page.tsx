@@ -27,7 +27,9 @@ export default async function ArticlesPage({ params }: ArticlesPageProps) {
   const { locale } = await params;
   const safeLocale: Locale = locales.includes(locale as Locale) ? (locale as Locale) : 'ja';
   const dict = getDictionary(safeLocale);
-  const articles = await getAllArticles(safeLocale, { includePlaceholders: true });
+  const articles = (
+    await getAllArticles(safeLocale, { includePlaceholders: true })
+  ).filter((article) => article.category !== 'admissions');
 
   return (
     <div className="container px-4 py-12 mx-auto md:px-6">
