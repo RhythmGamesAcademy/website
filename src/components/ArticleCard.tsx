@@ -14,28 +14,21 @@ export default function ArticleCard({
   return (
     <Link
       href={localizedPath(locale, `/articles/${article.category}/${article.slug}`)}
-      className="block rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-5 transition-shadow duration-200 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
+      className="block py-3 px-4 border-b border-[var(--color-border-subtle)] transition-colors hover:bg-[color-mix(in_srgb,var(--color-bg-elevated)_50%,transparent)]"
     >
-      <div className="flex flex-col h-full gap-4">
-        <div className="flex items-center justify-between gap-4">
-          <CategoryBadge category={article.category} locale={locale} />
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex items-center gap-3">
           <time
-            className="text-xs text-[var(--color-text-muted)]"
+            className="text-xs text-[var(--color-text-muted)] whitespace-nowrap"
             dateTime={article.date}
           >
             {formatArticleDate(article.date, locale)}
           </time>
+          <CategoryBadge category={article.category} locale={locale} />
         </div>
-        <div>
-          <h3 className="text-lg font-bold text-[var(--color-text-primary)] leading-snug">
-            {article.title}
-          </h3>
-          {article.excerpt && (
-            <p className="mt-3 text-sm text-[var(--color-text-secondary)] leading-relaxed line-clamp-3">
-              {article.excerpt}
-            </p>
-          )}
-        </div>
+        <h3 className="text-base font-medium text-[var(--color-text-primary)] flex-grow">
+          {article.title}
+        </h3>
       </div>
     </Link>
   );

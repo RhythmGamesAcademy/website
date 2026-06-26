@@ -19,9 +19,9 @@ export const ja = {
     matchPartial: '{n}語一致',
   },
   home: {
-    heroSection: 'ヒーロースライダー',
-    latestNotes: '最新のノーツ',
-    viewAll: 'すべて見る',
+    heroSection: 'ピックアップ',
+    latestNotes: '最新のニュース',
+    viewAll: 'すべて表示',
   },
   articles: {
     empty: '記事がありません。',

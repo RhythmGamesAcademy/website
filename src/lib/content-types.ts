@@ -1,12 +1,14 @@
 import { TranslationStatus } from './content-schema';
 import { Locale } from './i18n-config';
 
-export type ArticleCategory = 'amendments' | 'statements' | 'news';
+export type ArticleCategory = 'news' | 'statement' | 'amendment' | 'record' | 'press-release';
 
 export const ARTICLE_CATEGORIES: ArticleCategory[] = [
-  'amendments',
-  'statements',
   'news',
+  'statement',
+  'amendment',
+  'record',
+  'press-release',
 ];
 
 export function isArticleCategory(value: string): value is ArticleCategory {
@@ -37,14 +39,18 @@ export interface HeroSlide {
 export function getCategoryLabels(locale: Locale): Record<ArticleCategory, string> {
   const labels: Record<Locale, Record<ArticleCategory, string>> = {
     ja: {
-      amendments: '規則改正',
-      statements: '声明',
       news: 'お知らせ',
+      statement: '声明',
+      amendment: '規則改正',
+      record: '活動記録',
+      'press-release': 'プレスリリース',
     },
     en: {
-      amendments: 'Amendments',
-      statements: 'Statements',
       news: 'News',
+      statement: 'Statement',
+      amendment: 'Amendment',
+      record: 'Activity Record',
+      'press-release': 'Press Release',
     },
   };
   return labels[locale];

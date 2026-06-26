@@ -1,7 +1,7 @@
 ---
 title: "音楽ゲーム学園 設立声明"
 date: "2026-06-23"
-category: "statements"
+category: "statement"
 excerpt: "音楽ゲーム学園の設立にあたり、我々の理念と使命を表明します。"
 ---
 

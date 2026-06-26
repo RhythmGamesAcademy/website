@@ -35,7 +35,7 @@ export default function ArticleList({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-end gap-2 border-b border-[var(--color-border)] pb-1">
+      <div className="flex flex-wrap items-end gap-6 border-b border-[var(--color-border)] pb-1">
         {categories.map((category) => {
           const label =
             category === allCategoryKey ? dict.articles.all : categoryLabels[category];
@@ -45,7 +45,7 @@ export default function ArticleList({
               key={category}
               type="button"
               onClick={() => setSelectedCategory(category)}
-              className={`border-b-2 pb-3 text-sm font-semibold transition ${
+              className={`border-b-2 pb-3 px-2 text-base font-semibold transition min-h-12 ${
                 isActive
                   ? 'border-[var(--color-accent-pink)] text-[var(--color-text-primary)]'
                   : 'border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
@@ -57,7 +57,7 @@ export default function ArticleList({
         })}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-0">
         {filteredArticles.map((article) => (
           <ArticleCard
             key={`${article.category}-${article.slug}`}

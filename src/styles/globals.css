@@ -66,6 +66,7 @@
       url('/images/hero-01.jpg');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     filter: saturate(1.1) brightness(0.96);
   }
 

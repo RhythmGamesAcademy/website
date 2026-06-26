@@ -18,7 +18,7 @@ export default function Footer({ locale }: FooterProps) {
   const siteTitle = locale === 'ja' ? siteConfig.name : siteConfig.nameEn;
 
   return (
-    <footer className="mt-auto bg-[var(--color-bg-page)] border-t border-[var(--color-border)]">
+    <footer className="relative z-10 mt-auto bg-[var(--color-bg-page)] border-t border-[var(--color-border)]">
       <div className="py-14">
         <div className="container px-4 mx-auto md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl">

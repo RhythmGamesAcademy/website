@@ -10,7 +10,7 @@ export const en: Dictionary = {
     about: 'About',
     organization: 'Organization',
     contact: 'Contact',
-    search: 'Site search',
+    search: 'Site Search',
   },
   search: {
     placeholder: 'Enter keywords (space-separated for multiple terms)',
@@ -21,12 +21,12 @@ export const en: Dictionary = {
     matchPartial: '{n} terms matched',
   },
   home: {
-    heroSection: 'Hero slider',
-    latestNotes: 'Latest Notes',
-    viewAll: 'View all',
+    heroSection: 'Featured Highlights',
+    latestNotes: 'Latest News',
+    viewAll: 'View All',
   },
   articles: {
-    empty: 'No news available.',
+    empty: 'No News Available',
     all: 'All',
   },
   hero: {
@@ -59,6 +59,6 @@ export const en: Dictionary = {
     sitemap: 'Sitemap',
     groupAbout: 'About the Academy',
     groupInfo: 'Information & Contact',
-    managedBy: 'Managed and operated by the Academy Administration Office.',
+    managedBy: 'Managed and operated by Academy Administration.',
   },
 };
