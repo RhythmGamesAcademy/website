@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     default: '音楽ゲーム学園',
   },
   description:
-    '音楽ゲームに関するあらゆる知的・文化的遺産の集積・継承・発展を恒久的な使命とするアカデミックファンコミュニティ。',
+    '音楽ゲームに関する知的文化遺産を集積・継承・発展させていくためのアカデミックファンコミュニティ。',
 };
 
 export default async function RootLayout({
