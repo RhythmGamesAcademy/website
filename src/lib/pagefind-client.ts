@@ -59,6 +59,19 @@ export async function loadPagefind(): Promise<PagefindInstance | null> {
   return pagefindPromise;
 }
 
+/**
+ * Pagefind resolves result URLs against the bundle location, so they already
+ * carry the basePath. Strip it here and hand back a plain route path: next/link
+ * (and canonical internal linking) re-apply the basePath themselves.
+ */
+function toRoutePath(url: string): string {
+  const basePath = getClientBasePath();
+  if (basePath && url.startsWith(basePath)) {
+    return url.slice(basePath.length) || '/';
+  }
+  return url;
+}
+
 async function hydrateResults(
   ranked: Array<{ result: PagefindResult; matchCount: number }>,
   totalTerms: number
@@ -69,7 +82,7 @@ async function hydrateResults(
     const data = await result.data();
     items.push({
       title: data.meta.title || data.url,
-      url: data.url,
+      url: toRoutePath(data.url),
       excerpt: data.excerpt,
       matchCount,
       totalTerms,

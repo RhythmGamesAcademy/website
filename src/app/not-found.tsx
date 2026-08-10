@@ -4,7 +4,7 @@ import { sitePath } from '@/src/lib/paths';
 
 export default function NotFound() {
   return (
-    <div className="container px-4 py-24 mx-auto md:px-6 max-w-2xl text-center">
+    <div className="container px-4 py-24 mx-auto md:px-6 max-w-2xl text-center" data-pagefind-ignore>
       <div className="content-surface p-6">
         <p className="text-sm font-semibold text-[var(--color-accent-purple)] mb-3">404</p>
         <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">

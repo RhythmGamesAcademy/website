@@ -6,11 +6,13 @@ import Image from 'next/image';
 export default function HeroSlideItem({
   slide,
   isActive,
+  instant,
   ctaLabel,
   slideLabel,
 }: {
   slide: HeroSlide;
   isActive: boolean;
+  instant: boolean;
   ctaLabel: string;
   slideLabel: string;
 }) {
@@ -19,9 +21,9 @@ export default function HeroSlideItem({
 
   return (
     <div
-      className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${
-        isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-      }`}
+      className={`absolute inset-0 w-full h-full transition-opacity ${
+        instant ? 'duration-0' : 'duration-700'
+      } ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}
       aria-hidden={!isActive}
       inert={!isActive ? true : undefined}
       role="group"
@@ -50,7 +52,7 @@ export default function HeroSlideItem({
             {slide.subtitle}
           </p>
         )}
-        {isActive && (
+        {isActive && slide.linkUrl && (
           <Button href={slide.linkUrl} variant="outline" className="mt-2 px-6 py-2.5">
             {ctaLabel}
           </Button>

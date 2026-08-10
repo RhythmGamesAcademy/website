@@ -34,7 +34,7 @@ export interface HeroSlide {
   title: string;
   subtitle?: string;
   image: string;
-  linkUrl: string;
+  linkUrl?: string;
   order: number;
   alt: string;
   decorative: boolean;

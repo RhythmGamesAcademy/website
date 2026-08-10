@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import '@/src/styles/globals.css';
 import { siteConfig } from '@/src/lib/site-config';
+import { withBasePath } from '@/src/lib/paths';
 import BasePathScript from '@/src/components/BasePathScript';
 import Header from '@/src/components/Header';
 import Footer from '@/src/components/Footer';
@@ -32,7 +33,16 @@ export default async function RootLayout({
     <html lang="ja">
       <body className={`${notoSansJP.className} min-h-screen flex flex-col relative`}>
         <BasePathScript />
-        <div className="ambient-bg pointer-events-none" aria-hidden="true" />
+        {/* CSS の url() には basePath が付かないため、画像だけカスタムプロパティで渡す */}
+        <div
+          className="ambient-bg pointer-events-none"
+          aria-hidden="true"
+          style={
+            {
+              '--ambient-image': `url('${withBasePath('/images/background.png')}')`,
+            } as React.CSSProperties
+          }
+        />
 
         <Header />
         <Breadcrumbs articleTitles={articleTitles} />

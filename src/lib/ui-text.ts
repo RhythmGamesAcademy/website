@@ -29,8 +29,6 @@ export const text = {
   },
   hero: {
     viewDetails: '詳細を見る',
-    pause: 'スライドショーを一時停止',
-    play: 'スライドショーを再生',
     slideRole: 'スライド',
     goToSlide: 'スライド {n} へ移動',
   },

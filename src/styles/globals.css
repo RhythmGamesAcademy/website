@@ -2,33 +2,36 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-page:     #14051f;
-  --color-bg-surface:  rgba(24, 9, 44, 0.88);
+  --color-bg-page: #14051f;
+  --color-bg-surface: rgba(24, 9, 44, 0.88);
   --color-bg-elevated: rgba(34, 13, 70, 0.9);
-  --color-bg-deep:     #0f0818;
+  --color-bg-deep: #0f0818;
 
-  --color-accent-pink:    #ff64d0;
-  --color-accent-cyan:    #6af0ff;
-  --color-accent-purple:  #b36cff;
+  --color-accent-pink: #ff64d0;
+  --color-accent-cyan: #6af0ff;
+  --color-accent-purple: #b36cff;
   --color-accent-lavender: #d9c2ff;
-  --color-accent-blush:    #f2d5ff;
+  --color-accent-blush: #f2d5ff;
 
-  --color-text-primary:   #f7f1ff;
+  --color-text-primary: #f7f1ff;
   --color-text-secondary: #c8b7ff;
-  --color-text-muted:     #a59ad8;
+  --color-text-muted: #a59ad8;
 
-  --color-border:         rgba(255,255,255,0.12);
-  --color-border-subtle:  rgba(255,255,255,0.08);
-  --color-border-strong:  rgba(255,255,255,0.24);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.24);
 
   --color-cat-amendments: var(--color-accent-cyan);
   --color-cat-statements: var(--color-accent-pink);
   --color-cat-admissions: var(--color-accent-purple);
-  --color-cat-news:       var(--color-text-primary);
+  --color-cat-news: var(--color-text-primary);
 }
 
 @layer base {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
@@ -60,10 +63,12 @@
     position: fixed;
     inset: 0;
     z-index: -1;
+    /* 実際の値は layout.tsx が withBasePath() 付きで注入する */
+    --ambient-image: url('/images/background.png');
     background-image:
       radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 24%),
       radial-gradient(circle at bottom right, rgba(110, 233, 255, 0.16), transparent 26%),
-      url('/images/hero-01.jpg');
+      var(--ambient-image);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -87,13 +92,11 @@
   }
 
   .content-surface {
-    background: linear-gradient(
-      to bottom,
-      rgba(20,5,31,0.68),
-      rgba(24,9,44,0.62)
-    );
+    background: linear-gradient(to bottom,
+        rgba(20, 5, 31, 0.68),
+        rgba(24, 9, 44, 0.62));
     border: 1px solid var(--color-border);
-    box-shadow: 0 8px 40px rgba(6,4,10,0.6);
+    box-shadow: 0 8px 40px rgba(6, 4, 10, 0.6);
     color: var(--color-text-primary);
     border-radius: 12px;
   }

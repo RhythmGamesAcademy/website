@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { text } from '@/src/lib/ui-text';
+import { getClientBasePath } from '@/src/lib/client-base-path';
 import { loadPagefind, rankedSearch, SearchResultItem } from '@/src/lib/pagefind-client';
 
 export default function SiteSearch() {
@@ -121,7 +122,8 @@ export default function SiteSearch() {
       setActiveIndex((prev) => (prev <= 0 ? results.length - 1 : prev - 1));
     } else if (event.key === 'Enter' && activeIndex >= 0) {
       event.preventDefault();
-      window.location.href = results[activeIndex].url;
+      // Pagefind の url は basePath を含まないため、Link と同じ扱いになるよう手で付ける
+      window.location.href = `${getClientBasePath()}${results[activeIndex].url}`;
     }
   }
 

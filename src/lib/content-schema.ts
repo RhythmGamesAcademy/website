@@ -24,7 +24,7 @@ export const heroSlideSchema = z.object({
   image: z
     .string()
     .regex(/^\/images\//, 'image must be a path under /images/ (no external URLs)'),
-  linkUrl: z.string(),
+  linkUrl: z.string().optional(),
   order: z.number().int().nonnegative(),
   alt: z.string().optional().default(''),
   decorative: z.boolean().optional().default(true),
