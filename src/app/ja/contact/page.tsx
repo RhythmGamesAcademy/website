@@ -29,11 +29,11 @@ export default function ContactPage() {
               </a>
             </p>
           </div>
-          <h3 className="!mt-12 !border-b !border-[var(--color-border-subtle)] !pb-2">Discord コミュニティ</h3>
+          {/* <h3 className="!mt-12 !border-b !border-[var(--color-border-subtle)] !pb-2">Discord コミュニティ</h3>
           <p>
             学園の日常的な議論や交流は、専用の Discord サーバーにて行われています。<br />
             参加をご希望の方は、<Link href={sitePath('/admissions')}>{text.nav.admissions}</Link>のページをご確認ください。
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
