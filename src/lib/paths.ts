@@ -1,18 +1,19 @@
-import { Locale } from './i18n-config';
 import { siteConfig } from './site-config';
 
 /**
- * Returns a localized route path.
+ * The site is Japanese-only, but the historical /ja/ URL prefix is preserved
+ * so that previously shared links keep working.
  */
-export function localizedPath(locale: Locale, path: string): string {
-  // If path is root, just return /locale
-  if (path === '/') return `/${locale}/`;
-  
-  // Ensure path starts with /
+export const ROUTE_PREFIX = '/ja';
+
+/**
+ * Returns an internal route path (always prefixed and trailing-slashed).
+ */
+export function sitePath(path: string): string {
+  if (path === '/' || path === '') return `${ROUTE_PREFIX}/`;
+
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  
-  // Ensure we don't have trailing slash issues, but respect trailingSlash: true
-  const route = `/${locale}${normalizedPath}`;
+  const route = `${ROUTE_PREFIX}${normalizedPath}`;
   return route.endsWith('/') ? route : `${route}/`;
 }
 
@@ -21,7 +22,7 @@ export function localizedPath(locale: Locale, path: string): string {
  */
 export function withBasePath(path: string): string {
   if (path.startsWith('http')) return path;
-  
+
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   return `${siteConfig.basePath}${normalizedPath}`;
 }
@@ -29,7 +30,6 @@ export function withBasePath(path: string): string {
 /**
  * Returns a fully qualified canonical URL.
  */
-export function canonicalUrl(locale: Locale, path: string): string {
-  const route = localizedPath(locale, path);
-  return `${siteConfig.baseUrl}${siteConfig.basePath}${route}`;
+export function canonicalUrl(path: string): string {
+  return `${siteConfig.baseUrl}${siteConfig.basePath}${sitePath(path)}`;
 }

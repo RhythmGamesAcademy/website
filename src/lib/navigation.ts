@@ -1,5 +1,4 @@
-import { Locale } from './i18n-config';
-import { siteConfig } from './site-config';
+import { sitePath } from './paths';
 
 export interface NavItem {
   key: string;
@@ -7,48 +6,42 @@ export interface NavItem {
   isExternal?: boolean;
 }
 
-export function getNavItems(locale: Locale): NavItem[] {
-  return [
-    { key: 'home', href: `/${locale}/` },
-    { key: 'articles', href: `/${locale}/articles/` },
-    { key: 'admissions', href: `/${locale}/admissions/` },
-    { key: 'charter', href: `/${locale}/charter/` },
-    { key: 'about', href: `/${locale}/about/` },
-    { key: 'contact', href: `/${locale}/contact/` },
-  ];
-}
+export const NAV_ITEMS: NavItem[] = [
+  { key: 'home', href: sitePath('/') },
+  { key: 'articles', href: sitePath('/articles') },
+  { key: 'admissions', href: sitePath('/admissions') },
+  { key: 'charter', href: sitePath('/charter') },
+  { key: 'about', href: sitePath('/about') },
+  { key: 'contact', href: sitePath('/contact') },
+];
 
 export interface FooterNavGroup {
   titleKey: string;
   items: NavItem[];
 }
 
-export function getFooterNavGroups(locale: Locale): FooterNavGroup[] {
-  return [
-    {
-      titleKey: 'groupAbout',
-      items: [
-        { key: 'charter', href: `/${locale}/charter/` },
-        { key: 'about', href: `/${locale}/about/` },
-        { key: 'organization', href: `/${locale}/about/organization/` },
-      ],
-    },
-    {
-      titleKey: 'groupInfo',
-      items: [
-        { key: 'articles', href: `/${locale}/articles/` },
-        { key: 'admissions', href: `/${locale}/admissions/` },
-        { key: 'contact', href: `/${locale}/contact/` },
-      ],
-    },
-  ];
-}
+export const FOOTER_NAV_GROUPS: FooterNavGroup[] = [
+  {
+    titleKey: 'groupAbout',
+    items: [
+      { key: 'charter', href: sitePath('/charter') },
+      { key: 'about', href: sitePath('/about') },
+      { key: 'organization', href: sitePath('/about/organization') },
+    ],
+  },
+  {
+    titleKey: 'groupInfo',
+    items: [
+      { key: 'articles', href: sitePath('/articles') },
+      { key: 'admissions', href: sitePath('/admissions') },
+      { key: 'contact', href: sitePath('/contact') },
+    ],
+  },
+];
 
-export function getFooterBottomLinks(locale: Locale): NavItem[] {
-  return [
-    { key: 'sitemap', href: `/${locale}/sitemap/` },
-    { key: 'sitePolicy', href: `/${locale}/policies/site-policy/` },
-    { key: 'privacyPolicy', href: `/${locale}/policies/privacy/` },
-    { key: 'accessibility', href: `/${locale}/policies/accessibility/` },
-  ];
-}
+export const FOOTER_BOTTOM_LINKS: NavItem[] = [
+  { key: 'sitemap', href: sitePath('/sitemap') },
+  { key: 'sitePolicy', href: sitePath('/policies/site-policy') },
+  { key: 'privacyPolicy', href: sitePath('/policies/privacy') },
+  { key: 'accessibility', href: sitePath('/policies/accessibility') },
+];

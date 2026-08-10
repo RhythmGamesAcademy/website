@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { Locale } from '@/src/lib/i18n-config';
-import { getDictionary } from '@/src/lib/get-dictionary';
-import { getCategoryLabels } from '@/src/lib/content-types';
+import { text } from '@/src/lib/ui-text';
+import { CATEGORY_LABELS } from '@/src/lib/content-types';
+import { sitePath } from '@/src/lib/paths';
 
-function normalizePathname(pathname: string) {
-  return pathname.replace(/\/+$|^\//g, '') || '/';
+interface BreadcrumbsProps {
+  /** "<category>/<slug>" to article title, so detail pages show a real title. */
+  articleTitles: Record<string, string>;
 }
 
 function formatSegmentLabel(segment: string) {
@@ -17,81 +18,86 @@ function formatSegmentLabel(segment: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-export default function Breadcrumbs({ locale }: { locale: Locale }) {
+export default function Breadcrumbs({ articleTitles }: BreadcrumbsProps) {
   const pathname = usePathname();
-  const dict = getDictionary(locale);
 
   const items = useMemo(() => {
     if (!pathname) return [];
-    const normalized = normalizePathname(pathname);
-    const segments = normalized.split('/').filter(Boolean);
+    const segments = pathname.split('/').filter(Boolean);
+    // segments[0] is the "ja" route prefix; the section starts at index 1.
     if (segments.length <= 1) return [];
 
     const crumbs: Array<{ href: string; label: string }> = [
-      { href: `/${locale}/`, label: dict.nav.home },
+      { href: sitePath('/'), label: text.nav.home },
     ];
 
     const section = segments[1];
     switch (section) {
       case 'articles': {
-        crumbs.push({ href: `/${locale}/articles/`, label: dict.nav.articles });
+        crumbs.push({ href: sitePath('/articles'), label: text.nav.articles });
         if (segments[2]) {
-          const categoryLabels = getCategoryLabels(locale);
-          const categoryKey = segments[2] as keyof typeof categoryLabels;
-          const categoryLabel = categoryLabels[categoryKey] ?? formatSegmentLabel(segments[2]);
-          crumbs.push({ href: `/${locale}/articles/${segments[2]}/`, label: categoryLabel });
+          const categoryKey = segments[2] as keyof typeof CATEGORY_LABELS;
+          const categoryLabel = CATEGORY_LABELS[categoryKey] ?? formatSegmentLabel(segments[2]);
+          crumbs.push({ href: sitePath(`/articles/${segments[2]}`), label: categoryLabel });
         }
         if (segments[3]) {
-          crumbs.push({ href: pathname, label: formatSegmentLabel(segments[3]) });
+          const title = articleTitles[`${segments[2]}/${segments[3]}`];
+          crumbs.push({ href: pathname, label: title ?? formatSegmentLabel(segments[3]) });
         }
         break;
       }
       case 'about': {
-        crumbs.push({ href: `/${locale}/about/`, label: dict.nav.about });
+        crumbs.push({ href: sitePath('/about'), label: text.nav.about });
         if (segments[2] === 'organization') {
-          crumbs.push({ href: `/${locale}/about/organization/`, label: dict.nav.organization });
+          crumbs.push({ href: sitePath('/about/organization'), label: text.nav.organization });
         }
         break;
       }
+      case 'admissions':
+        crumbs.push({ href: sitePath('/admissions'), label: text.nav.admissions });
+        break;
       case 'charter':
-        crumbs.push({ href: `/${locale}/charter/`, label: dict.nav.charter });
+        crumbs.push({ href: sitePath('/charter'), label: text.nav.charter });
         break;
       case 'contact':
-        crumbs.push({ href: `/${locale}/contact/`, label: dict.nav.contact });
+        crumbs.push({ href: sitePath('/contact'), label: text.nav.contact });
         break;
       case 'sitemap':
-        crumbs.push({ href: `/${locale}/sitemap/`, label: dict.footer.sitemap });
+        crumbs.push({ href: sitePath('/sitemap'), label: text.footer.sitemap });
         break;
       case 'policies': {
         const slug = segments[2];
         if (slug) {
           const label =
             slug === 'privacy'
-              ? dict.footer.privacyPolicy
+              ? text.footer.privacyPolicy
               : slug === 'site-policy'
-              ? dict.footer.sitePolicy
+              ? text.footer.sitePolicy
               : slug === 'accessibility'
-              ? dict.footer.accessibility
+              ? text.footer.accessibility
               : formatSegmentLabel(slug);
-          crumbs.push({ href: `/${locale}/policies/${slug}/`, label });
+          crumbs.push({ href: sitePath(`/policies/${slug}`), label });
         }
         break;
       }
       default: {
         for (let i = 1; i < segments.length; i += 1) {
-          const href = `/${locale}/${segments.slice(0, i + 1).join('/')}/`;
+          const href = sitePath(`/${segments.slice(1, i + 1).join('/')}`);
           crumbs.push({ href, label: formatSegmentLabel(segments[i]) });
         }
       }
     }
 
     return crumbs;
-  }, [pathname, locale, dict]);
+  }, [pathname, articleTitles]);
 
   if (items.length === 0) return null;
 
   return (
-    <nav aria-label={locale === 'ja' ? 'パンくずリスト' : 'Breadcrumb'} className="border-b border-[var(--color-border)] bg-[var(--color-bg-surface)]">
+    <nav
+      aria-label={text.breadcrumbs.label}
+      className="border-b border-[var(--color-border)] bg-[var(--color-bg-surface)]"
+    >
       <div className="container px-4 mx-auto md:px-6 py-3 text-sm text-[var(--color-text-muted)]">
         <ol className="flex flex-wrap items-center gap-2">
           {items.map((item, index) => {

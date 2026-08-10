@@ -2,20 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Locale } from '@/src/lib/i18n-config';
-import { NavItem } from '@/src/lib/navigation';
-import { Dictionary } from '@/src/lib/dictionaries/ja';
-import { LocaleRouteMap } from '@/src/lib/locale-route-utils';
-import LanguageSwitcher from './LanguageSwitcher';
+import { text } from '@/src/lib/ui-text';
+import { NAV_ITEMS } from '@/src/lib/navigation';
 
-interface MobileNavProps {
-  locale: Locale;
-  navItems: NavItem[];
-  dict: Dictionary;
-  routeMap: LocaleRouteMap;
-}
-
-const navLabelKeys: Record<string, keyof Dictionary['nav']> = {
+const navLabelKeys: Record<string, keyof typeof text.nav> = {
   home: 'home',
   articles: 'articles',
   admissions: 'admissions',
@@ -24,7 +14,7 @@ const navLabelKeys: Record<string, keyof Dictionary['nav']> = {
   contact: 'contact',
 };
 
-export default function MobileNav({ locale, navItems, dict, routeMap }: MobileNavProps) {
+export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +43,7 @@ export default function MobileNav({ locale, navItems, dict, routeMap }: MobileNa
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 text-[var(--color-text-primary)] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-purple)]"
-        aria-label={isOpen ? dict.mobileNav.close : dict.mobileNav.open}
+        aria-label={isOpen ? text.mobileNav.close : text.mobileNav.open}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
       >
@@ -81,9 +71,9 @@ export default function MobileNav({ locale, navItems, dict, routeMap }: MobileNa
           className="absolute left-0 w-full px-4 pt-2 pb-6 border-b border-[var(--color-border)] top-16 bg-[var(--color-bg-surface)] shadow-lg"
         >
           <nav className="flex flex-col gap-4" aria-label="Mobile navigation">
-            {navItems.map((item) => {
+            {NAV_ITEMS.map((item) => {
               const labelKey = navLabelKeys[item.key];
-              const label = labelKey ? dict.nav[labelKey] : item.key;
+              const label = labelKey ? text.nav[labelKey] : item.key;
               if (item.isExternal) {
                 return (
                   <a
@@ -107,13 +97,6 @@ export default function MobileNav({ locale, navItems, dict, routeMap }: MobileNa
                 </Link>
               );
             })}
-            <div className="pt-2 border-t border-[var(--color-border-subtle)]">
-              <LanguageSwitcher
-                currentLocale={locale}
-                routeMap={routeMap}
-                dict={dict}
-              />
-            </div>
           </nav>
         </div>
       )}

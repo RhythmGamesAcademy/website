@@ -1,5 +1,4 @@
-import { ArticleCategory, getCategoryLabels } from '@/src/lib/content-types';
-import { Locale } from '@/src/lib/i18n-config';
+import { ArticleCategory, CATEGORY_LABELS } from '@/src/lib/content-types';
 
 const categoryStyles: Record<ArticleCategory, string> = {
   news: 'bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)] border border-[var(--color-border)]',
@@ -13,20 +12,12 @@ const categoryStyles: Record<ArticleCategory, string> = {
     'bg-[color-mix(in_srgb,var(--color-accent-purple)_15%,transparent)] text-[var(--color-accent-purple)] border border-[color-mix(in_srgb,var(--color-accent-purple)_40%,transparent)]',
 };
 
-export default function CategoryBadge({
-  category,
-  locale,
-}: {
-  category: ArticleCategory;
-  locale: Locale;
-}) {
-  const labels = getCategoryLabels(locale);
-
+export default function CategoryBadge({ category }: { category: ArticleCategory }) {
   return (
     <span
       className={`inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full ${categoryStyles[category]}`}
     >
-      {labels[category]}
+      {CATEGORY_LABELS[category]}
     </span>
   );
 }

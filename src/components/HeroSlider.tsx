@@ -2,15 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { HeroSlide } from '@/src/lib/content-types';
-import { Dictionary } from '@/src/lib/dictionaries/ja';
+import { text } from '@/src/lib/ui-text';
 import HeroSlideItem from './HeroSlideItem';
 
-interface HeroSliderProps {
-  slides: HeroSlide[];
-  dict: Dictionary;
-}
-
-export default function HeroSlider({ slides, dict }: HeroSliderProps) {
+export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -53,7 +48,7 @@ export default function HeroSlider({ slides, dict }: HeroSliderProps) {
     <section
       className="relative w-full h-[52vh] min-h-[320px] overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-bg-surface)]"
       aria-roledescription="carousel"
-      aria-label={dict.home.heroSection}
+      aria-label={text.home.heroSection}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => {
         if (!prefersReducedMotion) {
@@ -70,8 +65,8 @@ export default function HeroSlider({ slides, dict }: HeroSliderProps) {
           key={slide.id}
           slide={slide}
           isActive={index === currentIndex}
-          ctaLabel={dict.hero.viewDetails}
-          slideLabel={`${dict.hero.slideRole} ${index + 1}`}
+          ctaLabel={text.hero.viewDetails}
+          slideLabel={`${text.hero.slideRole} ${index + 1}`}
         />
       ))}
 
@@ -83,7 +78,7 @@ export default function HeroSlider({ slides, dict }: HeroSliderProps) {
             className="absolute top-4 right-4 z-30 px-3 py-1.5 text-xs font-medium rounded-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-purple)]"
             aria-pressed={isPaused}
           >
-            {isPaused ? dict.hero.play : dict.hero.pause}
+            {isPaused ? text.hero.play : text.hero.pause}
           </button>
 
           <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2 z-20">
@@ -97,7 +92,7 @@ export default function HeroSlider({ slides, dict }: HeroSliderProps) {
                     ? 'w-6 bg-[var(--color-accent-purple)]'
                     : 'w-1.5 bg-[var(--color-border-strong)]/25 hover:bg-[var(--color-text-muted)]'
                 }`}
-                aria-label={dict.hero.goToSlide.replace('{n}', String(index + 1))}
+                aria-label={text.hero.goToSlide.replace('{n}', String(index + 1))}
                 aria-current={index === currentIndex ? 'true' : undefined}
               />
             ))}

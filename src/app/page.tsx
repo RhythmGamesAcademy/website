@@ -1,20 +1,30 @@
+import { ROUTE_PREFIX } from '@/src/lib/paths';
+
 export const metadata = {
-  title: 'Redirecting...',
+  title: 'Redirecting',
 };
 
+/**
+ * The site lives under the /ja/ prefix. This root page bounces visitors there,
+ * since a static export cannot issue a server-side redirect.
+ */
 export default function RootPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg-page)] text-white">
+    <div className="container px-4 py-24 mx-auto text-center" data-pagefind-ignore>
       <script
         dangerouslySetInnerHTML={{
           __html: `
-            const pathname = window.location.pathname.replace(/\/$/, '');
-            const target = pathname + '/ja/';
-            if (window.location.pathname !== target) window.location.replace(target);
+            (function () {
+              var base = window.location.pathname.replace(/\\/$/, '');
+              var target = base + '${ROUTE_PREFIX}/';
+              if (window.location.pathname !== target) window.location.replace(target);
+            })();
           `,
         }}
       />
-      <p className="text-sm text-[var(--color-text-secondary)]">Redirecting to the Japanese homepage…</p>
+      <p className="text-sm text-[var(--color-text-secondary)]">
+        ホームページへ移動しています…
+      </p>
     </div>
   );
 }

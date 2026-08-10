@@ -3,45 +3,23 @@ import path from 'path';
 import { parseMarkdownFile } from './markdown';
 import { Article, ARTICLE_CATEGORIES, ArticleCategory, isArticleCategory } from './content-types';
 import { articleFrontmatterSchema, parseOrThrow } from './content-schema';
-import { Locale } from './i18n-config';
 
-function getArticlesDirectory(locale: Locale): string {
-  return path.join(process.cwd(), 'content', locale, 'articles');
-}
+const ARTICLES_DIRECTORY = path.join(process.cwd(), 'content', 'ja', 'articles');
 
-function isPublishedArticle(translationStatus: string): boolean {
-  return translationStatus === 'published';
-}
-
-function isVisibleArticle(translationStatus: string, includePlaceholders: boolean) {
-  if (translationStatus === 'draft') return false;
-  return includePlaceholders ? true : isPublishedArticle(translationStatus);
-}
-
-export async function getAllArticles(
-  locale: Locale = 'ja',
-  options: { includePlaceholders?: boolean } = {}
-): Promise<Article[]> {
-  const { includePlaceholders = false } = options;
-  const articlesDirectory = getArticlesDirectory(locale);
+export async function getAllArticles(): Promise<Article[]> {
   const allArticles: Article[] = [];
 
   for (const category of ARTICLE_CATEGORIES) {
-    const categoryPath = path.join(articlesDirectory, category);
+    const categoryPath = path.join(ARTICLES_DIRECTORY, category);
     if (!fs.existsSync(categoryPath)) continue;
 
-    const fileNames = fs.readdirSync(categoryPath);
-    for (const fileName of fileNames) {
+    for (const fileName of fs.readdirSync(categoryPath)) {
       if (!fileName.endsWith('.md')) continue;
 
       const slug = fileName.replace(/\.md$/, '');
       const fullPath = path.join(categoryPath, fileName);
       const { frontmatter, contentHtml } = await parseMarkdownFile(fullPath);
       const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
-
-      if (!isVisibleArticle(parsed.translationStatus, includePlaceholders)) {
-        continue;
-      }
 
       allArticles.push({
         slug,
@@ -50,7 +28,6 @@ export async function getAllArticles(
         category,
         excerpt: parsed.excerpt,
         content: contentHtml,
-        translationStatus: parsed.translationStatus,
       });
     }
   }
@@ -58,36 +35,19 @@ export async function getAllArticles(
   return allArticles.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export async function getArticlesByCategory(
-  category: ArticleCategory,
-  locale: Locale = 'ja',
-  options: { includePlaceholders?: boolean } = {}
-): Promise<Article[]> {
-  const allArticles = await getAllArticles(locale, options);
+export async function getArticlesByCategory(category: ArticleCategory): Promise<Article[]> {
+  const allArticles = await getAllArticles();
   return allArticles.filter((article) => article.category === category);
 }
 
-export async function getArticle(
-  category: string,
-  slug: string,
-  locale: Locale = 'ja',
-  options: { includePlaceholder?: boolean } = {}
-): Promise<Article | null> {
-  const { includePlaceholder = false } = options;
-  if (!isArticleCategory(category)) {
-    return null;
-  }
+export async function getArticle(category: string, slug: string): Promise<Article | null> {
+  if (!isArticleCategory(category)) return null;
 
-  const articlesDirectory = getArticlesDirectory(locale);
-  const fullPath = path.join(articlesDirectory, category, `${slug}.md`);
+  const fullPath = path.join(ARTICLES_DIRECTORY, category, `${slug}.md`);
   if (!fs.existsSync(fullPath)) return null;
 
   const { frontmatter, contentHtml } = await parseMarkdownFile(fullPath);
   const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
-
-  if (!isVisibleArticle(parsed.translationStatus, includePlaceholder)) {
-    return null;
-  }
 
   return {
     slug,
@@ -96,61 +56,32 @@ export async function getArticle(
     category,
     excerpt: parsed.excerpt,
     content: contentHtml,
-    translationStatus: parsed.translationStatus,
   };
 }
 
-export async function getAllArticleSlugs(
-  locale: Locale = 'ja',
-  options: { publishedOnly?: boolean } = {}
-): Promise<Array<{ category: string; slug: string }>> {
-  const { publishedOnly = true } = options;
-  const articlesDirectory = getArticlesDirectory(locale);
-  const result: Array<{ category: string; slug: string }> = [];
-
-  for (const category of ARTICLE_CATEGORIES) {
-    const categoryPath = path.join(articlesDirectory, category);
-    if (!fs.existsSync(categoryPath)) continue;
-    const fileNames = fs.readdirSync(categoryPath);
-    for (const fileName of fileNames) {
-      if (!fileName.endsWith('.md')) continue;
-
-      const slug = fileName.replace(/\.md$/, '');
-      const fullPath = path.join(categoryPath, fileName);
-
-      if (publishedOnly) {
-        const { frontmatter } = await parseMarkdownFile(fullPath);
-        const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
-        if (!isPublishedArticle(parsed.translationStatus)) {
-          continue;
-        }
-      } else {
-        const { frontmatter } = await parseMarkdownFile(fullPath);
-        const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
-        if (parsed.translationStatus === 'draft') {
-          continue;
-        }
-      }
-
-      result.push({ category, slug });
-    }
+/**
+ * Maps "<category>/<slug>" to the article title, for breadcrumb labels.
+ */
+export async function getArticleTitleMap(): Promise<Record<string, string>> {
+  const map: Record<string, string> = {};
+  for (const article of await getAllArticles()) {
+    map[`${article.category}/${article.slug}`] = article.title;
   }
-  return result;
+  return map;
 }
 
-export async function getArticleTranslationStatus(
-  category: string,
-  slug: string,
-  locale: Locale
-): Promise<'published' | 'draft' | 'placeholder' | 'missing'> {
-  if (!isArticleCategory(category)) {
-    return 'missing';
+export function getAllArticleSlugs(): Array<{ category: ArticleCategory; slug: string }> {
+  const result: Array<{ category: ArticleCategory; slug: string }> = [];
+
+  for (const category of ARTICLE_CATEGORIES) {
+    const categoryPath = path.join(ARTICLES_DIRECTORY, category);
+    if (!fs.existsSync(categoryPath)) continue;
+
+    for (const fileName of fs.readdirSync(categoryPath)) {
+      if (!fileName.endsWith('.md')) continue;
+      result.push({ category, slug: fileName.replace(/\.md$/, '') });
+    }
   }
 
-  const fullPath = path.join(getArticlesDirectory(locale), category, `${slug}.md`);
-  if (!fs.existsSync(fullPath)) return 'missing';
-
-  const { frontmatter } = await parseMarkdownFile(fullPath);
-  const parsed = parseOrThrow(articleFrontmatterSchema, frontmatter, fullPath);
-  return parsed.translationStatus;
+  return result;
 }

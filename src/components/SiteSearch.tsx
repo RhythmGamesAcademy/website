@@ -2,16 +2,10 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Locale } from '@/src/lib/i18n-config';
-import { Dictionary } from '@/src/lib/dictionaries/ja';
+import { text } from '@/src/lib/ui-text';
 import { loadPagefind, rankedSearch, SearchResultItem } from '@/src/lib/pagefind-client';
 
-interface SiteSearchProps {
-  locale: Locale;
-  dict: Dictionary;
-}
-
-export default function SiteSearch({ locale, dict }: SiteSearchProps) {
+export default function SiteSearch() {
   const listboxId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -79,7 +73,6 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
     async (value: string) => {
       const trimmed = value.trim();
       if (!trimmed) {
-        https://rhythmgamesacademy.github.io
         setResults([]);
         setActiveIndex(-1);
         return;
@@ -93,14 +86,14 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
 
       setIsLoading(true);
       try {
-        const items = await rankedSearch(pagefind, trimmed, locale);
+        const items = await rankedSearch(pagefind, trimmed);
         setResults(items);
         setActiveIndex(items.length > 0 ? 0 : -1);
       } finally {
         setIsLoading(false);
       }
     },
-    [locale]
+    []
   );
 
   useEffect(() => {
@@ -134,8 +127,8 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
 
   function matchLabel(item: SearchResultItem): string | null {
     if (item.totalTerms <= 1) return null;
-    if (item.matchCount === item.totalTerms) return dict.search.matchAll;
-    return dict.search.matchPartial.replace('{n}', String(item.matchCount));
+    if (item.matchCount === item.totalTerms) return text.search.matchAll;
+    return text.search.matchPartial.replace('{n}', String(item.matchCount));
   }
 
   const showPanel = isOpen && query.trim().length > 0;
@@ -149,7 +142,7 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
     >
       <div className="container px-4 mx-auto md:px-6 py-3">
         <label htmlFor="site-search-input" className="sr-only">
-          {dict.nav.search}
+          {text.nav.search}
         </label>
         <div className="relative">
           <svg
@@ -174,7 +167,7 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
             }}
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleKeyDown}
-            placeholder={dict.search.placeholder}
+            placeholder={text.search.placeholder}
             role="combobox"
             aria-expanded={showPanel}
             aria-controls={showPanel ? listboxId : undefined}
@@ -188,20 +181,20 @@ export default function SiteSearch({ locale, dict }: SiteSearchProps) {
         </div>
 
         {pagefindState === 'unavailable' && (
-          <p className="mt-1.5 text-xs text-[var(--color-text-muted)]">{dict.search.unavailable}</p>
+          <p className="mt-1.5 text-xs text-[var(--color-text-muted)]">{text.search.unavailable}</p>
         )}
 
         {showPanel && (
           <div
             id={listboxId}
             role="listbox"
-            aria-label={dict.nav.search}
+            aria-label={text.nav.search}
             className="absolute z-50 mt-2 w-full overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] shadow-[0_8px_24px_rgba(31,28,34,0.08)]"
           >
             {isLoading ? (
-              <p className="px-4 py-3 text-sm text-[var(--color-text-muted)]">{dict.search.loading}</p>
+              <p className="px-4 py-3 text-sm text-[var(--color-text-muted)]">{text.search.loading}</p>
             ) : results.length === 0 ? (
-              <p className="px-4 py-3 text-sm text-[var(--color-text-muted)]">{dict.search.noResults}</p>
+              <p className="px-4 py-3 text-sm text-[var(--color-text-muted)]">{text.search.noResults}</p>
             ) : (
               <ul className="max-h-80 overflow-y-auto py-1">
                 {results.map((item, index) => {

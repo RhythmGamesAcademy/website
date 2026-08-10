@@ -1,26 +1,21 @@
 import { z } from 'zod';
 
-export const translationStatusSchema = z.enum(['published', 'draft', 'placeholder']);
-export type TranslationStatus = z.infer<typeof translationStatusSchema>;
-
 export const articleFrontmatterSchema = z.object({
   title: z.string(),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'date must be YYYY-MM-DD'),
   excerpt: z.string().optional().default(''),
-  translationStatus: translationStatusSchema.optional().default('published'),
 });
 export type ArticleFrontmatter = z.infer<typeof articleFrontmatterSchema>;
 
-export const policyFrontmatterSchema = z.object({
+export const pageFrontmatterSchema = z.object({
   title: z.string(),
   effectiveDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'effectiveDate must be YYYY-MM-DD').optional(),
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'updatedAt must be YYYY-MM-DD').optional(),
   contactEmail: z.string().email().optional(),
   reviewCycle: z.string().optional(),
   description: z.string().optional(),
-  translationStatus: translationStatusSchema.optional().default('published'),
 });
-export type PolicyFrontmatter = z.infer<typeof policyFrontmatterSchema>;
+export type PageFrontmatter = z.infer<typeof pageFrontmatterSchema>;
 
 export const heroSlideSchema = z.object({
   id: z.string(),

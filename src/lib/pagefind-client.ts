@@ -1,4 +1,3 @@
-import { Locale } from './i18n-config';
 import { getClientBasePath } from './client-base-path';
 
 export interface SearchResultItem {
@@ -28,10 +27,7 @@ interface PagefindSearchResponse {
 interface PagefindInstance {
   init?: () => Promise<void>;
   options?: (opts: { basePath?: string; bundlePath?: string }) => Promise<void>;
-  search: (
-    query: string,
-    options?: { filters?: Record<string, string> }
-  ) => Promise<PagefindSearchResponse>;
+  search: (query: string) => Promise<PagefindSearchResponse>;
 }
 
 let pagefindPromise: Promise<PagefindInstance | null> | null = null;
@@ -85,16 +81,13 @@ async function hydrateResults(
 
 export async function rankedSearch(
   pagefind: PagefindInstance,
-  query: string,
-  locale: Locale
+  query: string
 ): Promise<SearchResultItem[]> {
   const terms = query.trim().split(/\s+/).filter(Boolean);
   if (terms.length === 0) return [];
 
-  const filters = { locale };
-
   if (terms.length === 1) {
-    const { results } = await pagefind.search(terms[0], { filters });
+    const { results } = await pagefind.search(terms[0]);
     return hydrateResults(
       results.map((result) => ({ result, matchCount: 1 })),
       1
@@ -107,7 +100,7 @@ export async function rankedSearch(
   >();
 
   for (const term of terms) {
-    const { results } = await pagefind.search(term, { filters });
+    const { results } = await pagefind.search(term);
 
     for (const result of results) {
       const data = await result.data();

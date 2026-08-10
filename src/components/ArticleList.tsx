@@ -1,22 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Article, ARTICLE_CATEGORIES, getCategoryLabels } from '@/src/lib/content-types';
-import { Locale } from '@/src/lib/i18n-config';
-import { getDictionary } from '@/src/lib/get-dictionary';
+import { Article, ARTICLE_CATEGORIES, CATEGORY_LABELS } from '@/src/lib/content-types';
+import { text } from '@/src/lib/ui-text';
 import ArticleCard from './ArticleCard';
 
 const allCategoryKey = 'all';
 
-export default function ArticleList({
-  articles,
-  locale,
-}: {
-  articles: Article[];
-  locale: Locale;
-}) {
-  const dict = getDictionary(locale);
-  const categoryLabels = getCategoryLabels(locale);
+export default function ArticleList({ articles }: { articles: Article[] }) {
   const categories = [allCategoryKey, ...ARTICLE_CATEGORIES] as const;
   const [selectedCategory, setSelectedCategory] = useState<typeof categories[number]>(allCategoryKey);
 
@@ -28,7 +19,7 @@ export default function ArticleList({
   if (articles.length === 0) {
     return (
       <div className="py-10 text-center text-[var(--color-text-secondary)]">
-        {dict.articles.empty}
+        {text.articles.empty}
       </div>
     );
   }
@@ -38,7 +29,7 @@ export default function ArticleList({
       <div className="flex flex-wrap items-end gap-6 border-b border-[var(--color-border)] pb-1">
         {categories.map((category) => {
           const label =
-            category === allCategoryKey ? dict.articles.all : categoryLabels[category];
+            category === allCategoryKey ? text.articles.all : CATEGORY_LABELS[category];
           const isActive = category === selectedCategory;
           return (
             <button
@@ -59,11 +50,7 @@ export default function ArticleList({
 
       <div className="space-y-0">
         {filteredArticles.map((article) => (
-          <ArticleCard
-            key={`${article.category}-${article.slug}`}
-            article={article}
-            locale={locale}
-          />
+          <ArticleCard key={`${article.category}-${article.slug}`} article={article} />
         ))}
       </div>
     </div>

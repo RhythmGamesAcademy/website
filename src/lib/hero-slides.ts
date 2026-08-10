@@ -2,10 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { HeroSlide } from './content-types';
 import { heroSlidesSchema, parseOrThrow } from './content-schema';
-import { Locale } from './i18n-config';
 
-export function getHeroSlides(locale: Locale = 'ja'): HeroSlide[] {
-  const filePath = path.join(process.cwd(), 'content', locale, 'hero-slides.json');
+export function getHeroSlides(): HeroSlide[] {
+  const filePath = path.join(process.cwd(), 'content', 'ja', 'hero-slides.json');
 
   if (!fs.existsSync(filePath)) {
     return [];
