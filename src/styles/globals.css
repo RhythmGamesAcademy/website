@@ -137,6 +137,14 @@
   line-height: 2;
 }
 
+/* 直前の段落の margin-bottom (1rem) と相殺されるので、上下とも 2rem で揃う。
+   2rem は本文 1 行分 (font-size 1rem × line-height 2) にあたる。 */
+.markdown-body hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
+
 .markdown-body ul,
 .markdown-body ol {
   margin-bottom: 1rem;

@@ -9,6 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
+  // 狭い画面での折り返し位置を @ の直後に固定するため、局所部とドメイン部に分ける。
+  const [emailLocalPart, emailDomain] = siteConfig.contactEmail.split('@');
+
   return (
     <div className="container px-4 py-16 mx-auto md:px-6 max-w-3xl">
       <div className="content-surface p-6">
@@ -21,11 +24,16 @@ export default function ContactPage() {
             音楽ゲーム学園へのお問い合わせは、以下のメールアドレスより承っております。<br />
             お問い合わせ内容によっては、返信にお時間をいただく場合や、お答えできない場合がございますので、あらかじめご了承ください。
           </p>
-          <div className="p-8 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-md my-10 text-center">
+          <div className="p-5 sm:p-8 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-md my-10 text-center">
             <h2 className="!mt-0 !mb-4 !border-none !text-lg !font-bold">お問い合わせ窓口</h2>
-            <p className="font-bold text-xl mb-0 text-[var(--color-accent-pink)]">
-              <a href={`mailto:${siteConfig.contactEmail}`} className="hover:underline">
-                {siteConfig.contactEmail}
+            <p className="font-bold text-base sm:text-xl mb-0 text-[var(--color-accent-pink)]">
+              {/* py と -my を相殺させ、行の高さを変えずにタップ領域だけを広げる。
+                  wbr は狭い画面での折り返し位置を @ の直後に誘導する。 */}
+              <a
+                href={`mailto:${siteConfig.contactEmail}`}
+                className="inline-block max-w-full py-2 -my-2 break-words hover:underline"
+              >
+                {emailLocalPart}@<wbr />{emailDomain}
               </a>
             </p>
           </div>
