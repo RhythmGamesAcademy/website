@@ -1,7 +1,8 @@
 import { ROUTE_PREFIX } from '@/src/lib/paths';
+import { text } from '@/src/lib/ui-text';
 
 export const metadata = {
-  title: 'Redirecting',
+  title: text.redirect.title,
 };
 
 /**
@@ -22,9 +23,7 @@ export default function RootPage() {
           `,
         }}
       />
-      <p className="text-sm text-[var(--color-text-secondary)]">
-        ホームページへ移動しています…
-      </p>
+      <p className="text-sm text-[var(--color-text-secondary)]">{text.redirect.message}</p>
     </div>
   );
 }

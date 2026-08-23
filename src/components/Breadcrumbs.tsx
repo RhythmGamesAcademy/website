@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { text } from '@/src/lib/ui-text';
-import { CATEGORY_LABELS } from '@/src/lib/content-types';
+import { ROUTE_LABELS } from '@/src/lib/navigation';
 import { sitePath } from '@/src/lib/paths';
 
 interface BreadcrumbsProps {
@@ -12,14 +12,20 @@ interface BreadcrumbsProps {
   articleTitles: Record<string, string>;
 }
 
-function formatSegmentLabel(segment: string) {
-  return segment
-    .replace(/-/g, ' ')
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
 export default function Breadcrumbs({ articleTitles }: BreadcrumbsProps) {
   const pathname = usePathname();
+
+  /** 記事詳細の見出しも ROUTE_LABELS と同じ「ルート → 表示名」の形に揃える。 */
+  const articleRouteLabels = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(articleTitles).map(([key, title]) => [
+          sitePath(`/articles/${key}`),
+          title,
+        ])
+      ),
+    [articleTitles]
+  );
 
   const items = useMemo(() => {
     if (!pathname) return [];
@@ -31,65 +37,17 @@ export default function Breadcrumbs({ articleTitles }: BreadcrumbsProps) {
       { href: sitePath('/'), label: text.nav.home },
     ];
 
-    const section = segments[1];
-    switch (section) {
-      case 'articles': {
-        crumbs.push({ href: sitePath('/articles'), label: text.nav.articles });
-        if (segments[2]) {
-          const categoryKey = segments[2] as keyof typeof CATEGORY_LABELS;
-          const categoryLabel = CATEGORY_LABELS[categoryKey] ?? formatSegmentLabel(segments[2]);
-          crumbs.push({ href: sitePath(`/articles/${segments[2]}`), label: categoryLabel });
-        }
-        if (segments[3]) {
-          const title = articleTitles[`${segments[2]}/${segments[3]}`];
-          crumbs.push({ href: pathname, label: title ?? formatSegmentLabel(segments[3]) });
-        }
-        break;
-      }
-      case 'about': {
-        crumbs.push({ href: sitePath('/about'), label: text.nav.about });
-        if (segments[2] === 'organization') {
-          crumbs.push({ href: sitePath('/about/organization'), label: text.nav.organization });
-        }
-        break;
-      }
-      case 'admissions':
-        crumbs.push({ href: sitePath('/admissions'), label: text.nav.admissions });
-        break;
-      case 'charter':
-        crumbs.push({ href: sitePath('/charter'), label: text.nav.charter });
-        break;
-      case 'contact':
-        crumbs.push({ href: sitePath('/contact'), label: text.nav.contact });
-        break;
-      case 'sitemap':
-        crumbs.push({ href: sitePath('/sitemap'), label: text.footer.sitemap });
-        break;
-      case 'policies': {
-        const slug = segments[2];
-        if (slug) {
-          const label =
-            slug === 'privacy'
-              ? text.footer.privacyPolicy
-              : slug === 'site-policy'
-              ? text.footer.sitePolicy
-              : slug === 'accessibility'
-              ? text.footer.accessibility
-              : formatSegmentLabel(slug);
-          crumbs.push({ href: sitePath(`/policies/${slug}`), label });
-        }
-        break;
-      }
-      default: {
-        for (let i = 1; i < segments.length; i += 1) {
-          const href = sitePath(`/${segments.slice(1, i + 1).join('/')}`);
-          crumbs.push({ href, label: formatSegmentLabel(segments[i]) });
-        }
-      }
+    for (let i = 1; i < segments.length; i += 1) {
+      const href = sitePath(`/${segments.slice(1, i + 1).join('/')}`);
+      const label = ROUTE_LABELS[href] ?? articleRouteLabels[href];
+      // 対応表に無い区間は黙って飛ばす。スラッグを整形して見せると
+      // "Charter.html" のような英語風の表示が利用者に漏れるため。
+      if (!label) continue;
+      crumbs.push({ href, label });
     }
 
-    return crumbs;
-  }, [pathname, articleTitles]);
+    return crumbs.length > 1 ? crumbs : [];
+  }, [pathname, articleRouteLabels]);
 
   if (items.length === 0) return null;
 
@@ -97,6 +55,7 @@ export default function Breadcrumbs({ articleTitles }: BreadcrumbsProps) {
     <nav
       aria-label={text.breadcrumbs.label}
       className="border-b border-[var(--color-border)] bg-[var(--color-bg-surface)]"
+      data-pagefind-ignore
     >
       <div className="container px-4 mx-auto md:px-6 py-3 text-sm text-[var(--color-text-muted)]">
         <ol className="flex flex-wrap items-center gap-2">

@@ -16,7 +16,7 @@ export default function Button({
   className = '',
 }: ButtonProps) {
   const baseClasses =
-    'inline-flex items-center justify-center px-5 py-2.5 font-medium text-sm transition-colors duration-200 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-purple)]';
+    'inline-flex items-center justify-center px-5 py-2.5 font-medium text-sm transition-colors duration-200 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]';
 
   let variantClasses = '';
   if (variant === 'primary') {

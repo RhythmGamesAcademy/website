@@ -1,6 +1,11 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { text } from '@/src/lib/ui-text';
 import { sitePath } from '@/src/lib/paths';
+
+export const metadata: Metadata = {
+  title: text.notFound.title,
+};
 
 export default function NotFound() {
   return (

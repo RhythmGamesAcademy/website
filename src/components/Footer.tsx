@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import { text, UiText } from '@/src/lib/ui-text';
+import { text } from '@/src/lib/ui-text';
 import { FOOTER_NAV_GROUPS, FOOTER_BOTTOM_LINKS } from '@/src/lib/navigation';
 import { siteConfig } from '@/src/lib/site-config';
-
-type FooterNavKey = keyof UiText['footer'];
 
 export default function Footer() {
   return (
@@ -11,31 +9,25 @@ export default function Footer() {
       <div className="py-14">
         <div className="container px-4 mx-auto md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl">
-            {FOOTER_NAV_GROUPS.map((group) => {
-              const title = text.footer[group.titleKey as FooterNavKey] || group.titleKey;
-              return (
-                <div key={group.titleKey} className="flex flex-col">
-                  <h3 className="text-sm font-semibold pb-2 mb-4 text-[var(--color-text-primary)] border-b border-[var(--color-border-subtle)]">
-                    {title}
-                  </h3>
-                  <ul className="flex flex-col gap-2.5">
-                    {group.items.map((item) => {
-                      const label = text.nav[item.key as keyof typeof text.nav] || item.key;
-                      return (
-                        <li key={item.key}>
-                          <Link
-                            href={item.href}
-                            className="text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)]"
-                          >
-                            {label}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
+            {FOOTER_NAV_GROUPS.map((group) => (
+              <div key={group.title} className="flex flex-col">
+                <h3 className="text-sm font-semibold pb-2 mb-4 text-[var(--color-text-primary)] border-b border-[var(--color-border-subtle)]">
+                  {group.title}
+                </h3>
+                <ul className="flex flex-col gap-2.5">
+                  {group.items.map((item) => (
+                    <li key={item.key}>
+                      <Link
+                        href={item.href}
+                        className="text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)]"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -58,19 +50,16 @@ export default function Footer() {
               </div>
             </div>
 
-            <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Footer bottom links">
-              {FOOTER_BOTTOM_LINKS.map((item) => {
-                const label = text.footer[item.key as FooterNavKey] || item.key;
-                return (
-                  <Link
-                    key={item.key}
-                    href={item.href}
-                    className="text-xs text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)]"
-                  >
-                    {label}
-                  </Link>
-                );
-              })}
+            <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label={text.landmarks.footerNav}>
+              {FOOTER_BOTTOM_LINKS.map((item) => (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  className="text-xs text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)]"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </nav>
           </div>
 

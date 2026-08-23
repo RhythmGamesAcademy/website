@@ -5,15 +5,6 @@ import Link from 'next/link';
 import { text } from '@/src/lib/ui-text';
 import { NAV_ITEMS } from '@/src/lib/navigation';
 
-const navLabelKeys: Record<string, keyof typeof text.nav> = {
-  home: 'home',
-  articles: 'articles',
-  admissions: 'admissions',
-  charter: 'charter',
-  about: 'about',
-  contact: 'contact',
-};
-
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -42,7 +33,7 @@ export default function MobileNav() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-[var(--color-text-primary)] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-purple)]"
+        className="p-2 text-[var(--color-text-primary)] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)]"
         aria-label={isOpen ? text.mobileNav.close : text.mobileNav.open}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
@@ -70,10 +61,9 @@ export default function MobileNav() {
           id="mobile-menu"
           className="absolute left-0 w-full px-4 pt-2 pb-6 border-b border-[var(--color-border)] top-16 bg-[var(--color-bg-surface)] shadow-lg"
         >
-          <nav className="flex flex-col gap-4" aria-label="Mobile navigation">
+          <nav className="flex flex-col gap-4" aria-label={text.landmarks.mobileNav}>
             {NAV_ITEMS.map((item) => {
-              const labelKey = navLabelKeys[item.key];
-              const label = labelKey ? text.nav[labelKey] : item.key;
+              const label = item.label;
               if (item.isExternal) {
                 return (
                   <a

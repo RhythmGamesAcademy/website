@@ -178,7 +178,7 @@ export default function SiteSearch() {
               showPanel && activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined
             }
             disabled={pagefindState === 'unavailable'}
-            className="w-full h-10 pl-10 pr-4 text-sm rounded-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] transition-colors focus:border-[var(--color-accent-purple)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full h-10 pl-10 pr-4 text-sm rounded-md border border-[var(--color-border)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] transition-colors focus:border-[var(--color-focus-ring)] disabled:cursor-not-allowed disabled:opacity-60"
           />
         </div>
 

@@ -5,13 +5,11 @@
   --color-bg-page: #14051f;
   --color-bg-surface: rgba(24, 9, 44, 0.88);
   --color-bg-elevated: rgba(34, 13, 70, 0.9);
-  --color-bg-deep: #0f0818;
 
   --color-accent-pink: #ff64d0;
   --color-accent-cyan: #6af0ff;
   --color-accent-purple: #b36cff;
   --color-accent-lavender: #d9c2ff;
-  --color-accent-blush: #f2d5ff;
 
   --color-text-primary: #f7f1ff;
   --color-text-secondary: #c8b7ff;
@@ -21,10 +19,9 @@
   --color-border-subtle: rgba(255, 255, 255, 0.08);
   --color-border-strong: rgba(255, 255, 255, 0.24);
 
-  --color-cat-amendments: var(--color-accent-cyan);
-  --color-cat-statements: var(--color-accent-pink);
-  --color-cat-admissions: var(--color-accent-purple);
-  --color-cat-news: var(--color-text-primary);
+  /* フォーカス表示専用。accent-purple より明度を上げてあり、
+     accent-purple を動かしてもフォーカス枠に波及しないよう独立させている。 */
+  --color-focus-ring: #cba6ff;
 }
 
 @layer base {
@@ -51,10 +48,12 @@
     overflow-x: hidden;
   }
 
+  /* オフセットを詰めて、要素自身の境界線と outline を隙間なく連続させる。
+     角丸は outline が要素のものに追従するので上書きしない。
+     この2点を守らないと枠が二重の箱に見える。 */
   :focus-visible {
-    outline: 2px solid var(--color-accent-purple);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 0;
   }
 }
 
@@ -88,7 +87,7 @@
   .glass-panel {
     background: var(--color-bg-surface);
     backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--color-border);
   }
 
   .content-surface {
@@ -222,7 +221,8 @@
 
 mark {
   background: color-mix(in srgb, var(--color-accent-lavender) 70%, white);
-  color: inherit;
+  /* 明るい地なので色を継承させない。継承すると淡色文字が乗って 1.3:1 まで落ちる。 */
+  color: var(--color-bg-page);
   padding: 0 0.1em;
   border-radius: 2px;
 }

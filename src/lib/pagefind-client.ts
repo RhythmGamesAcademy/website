@@ -1,4 +1,6 @@
 import { getClientBasePath } from './client-base-path';
+import { routeLabel } from './navigation';
+import { text } from './ui-text';
 
 export interface SearchResultItem {
   title: string;
@@ -61,15 +63,30 @@ export async function loadPagefind(): Promise<PagefindInstance | null> {
 
 /**
  * Pagefind resolves result URLs against the bundle location, so they already
- * carry the basePath. Strip it here and hand back a plain route path: next/link
- * (and canonical internal linking) re-apply the basePath themselves.
+ * carry the basePath, and they point at the emitted files (`/ja/charter.html`).
+ * Strip the basePath and normalise the rest into the exact shape `sitePath()`
+ * produces — 末尾スラッシュ付きの拡張子なしルート — so that next/link と
+ * パンくずの対応表がそのまま解決できる。
  */
 function toRoutePath(url: string): string {
   const basePath = getClientBasePath();
-  if (basePath && url.startsWith(basePath)) {
-    return url.slice(basePath.length) || '/';
+  let path = url;
+
+  if (basePath && path.startsWith(basePath)) {
+    path = path.slice(basePath.length);
   }
-  return url;
+
+  // クエリ・ハッシュは正規化の対象外なので切り離して最後に戻す。
+  const suffixIndex = path.search(/[?#]/);
+  const suffix = suffixIndex >= 0 ? path.slice(suffixIndex) : '';
+  path = suffixIndex >= 0 ? path.slice(0, suffixIndex) : path;
+
+  path = path.replace(/\/index\.html$/i, '/').replace(/\.html$/i, '');
+
+  if (!path.startsWith('/')) path = `/${path}`;
+  if (!path.endsWith('/')) path = `${path}/`;
+
+  return `${path}${suffix}`;
 }
 
 async function hydrateResults(
@@ -80,9 +97,12 @@ async function hydrateResults(
 
   for (const { result, matchCount } of ranked) {
     const data = await result.data();
+    const url = toRoutePath(data.url);
     items.push({
-      title: data.meta.title || data.url,
-      url: toRoutePath(data.url),
+      // 生の URL は利用者に見せない。索引にタイトルが無ければ対応表を引き、
+      // それでも決まらなければ汎用の文言に落とす。
+      title: data.meta.title || routeLabel(url) || text.search.untitled,
+      url,
       excerpt: data.excerpt,
       matchCount,
       totalTerms,

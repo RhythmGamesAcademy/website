@@ -11,12 +11,13 @@ export const text = {
     search: 'サイト内検索',
   },
   search: {
-    placeholder: 'キーワードを入力（スペース区切りで複数語）',
+    placeholder: 'キーワードを入力（スペースで複数語）',
     loading: '検索中…',
     noResults: '一致するページが見つかりません',
     unavailable: '検索は本番ビルド後に利用できます',
     matchAll: '全語一致',
     matchPartial: '{n}語一致',
+    untitled: 'タイトルのないページ',
   },
   home: {
     heroSection: 'ピックアップ',
@@ -43,6 +44,19 @@ export const text = {
   },
   breadcrumbs: {
     label: 'パンくずリスト',
+  },
+  landmarks: {
+    mainNav: 'メインナビゲーション',
+    mobileNav: 'モバイルナビゲーション',
+    footerNav: 'フッターリンク',
+  },
+  sitemap: {
+    mainMenu: 'メインメニュー',
+    policies: 'ポリシー',
+  },
+  redirect: {
+    title: 'ホームへ移動しています',
+    message: 'ホームページへ移動しています…',
   },
   footer: {
     description: 'アカデミックファンコミュニティ',

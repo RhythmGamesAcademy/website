@@ -17,7 +17,7 @@ export default function AboutPage() {
 
         <section className="mb-10">
           <p className="text-[var(--color-text-secondary)] leading-8">
-            音楽ゲーム学園は、音楽ゲームに関するあらゆる知的・文化的遺産の集積・継承・発展を恒久的な使命とするアカデミックファンコミュニティです。
+            音楽ゲーム学園は、音楽ゲームに関するあらゆる文化的遺産の集積・継承・発展を目的とするアカデミックファンコミュニティです。
           </p>
         </section>
 

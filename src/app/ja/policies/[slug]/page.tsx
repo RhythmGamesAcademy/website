@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { parseMarkdownFile } from '@/src/lib/markdown';
 import { parseOrThrow, pageFrontmatterSchema } from '@/src/lib/content-schema';
 import type { Metadata } from 'next';
+import { text } from '@/src/lib/ui-text';
 
 type PolicySlug = 'privacy' | 'site-policy' | 'accessibility';
 const POLICY_SLUGS: PolicySlug[] = ['privacy', 'site-policy', 'accessibility'];
@@ -25,7 +26,7 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: PolicyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const filePath = policyPath(slug);
-  if (!fs.existsSync(filePath)) return { title: '404' };
+  if (!fs.existsSync(filePath)) return { title: text.notFound.title };
   const { frontmatter } = await parseMarkdownFile(filePath);
   const parsed = parseOrThrow(pageFrontmatterSchema, frontmatter, filePath);
   return { title: parsed.title };

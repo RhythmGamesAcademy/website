@@ -5,15 +5,6 @@ import { sitePath } from '@/src/lib/paths';
 import { siteConfig } from '@/src/lib/site-config';
 import MobileNav from './MobileNav';
 
-const navLabelKeys: Record<string, keyof typeof text.nav> = {
-  home: 'home',
-  articles: 'articles',
-  admissions: 'admissions',
-  charter: 'charter',
-  about: 'about',
-  contact: 'contact',
-};
-
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--color-bg-surface)]">
@@ -30,10 +21,9 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-5" aria-label="Main navigation">
+        <nav className="hidden md:flex items-center gap-5" aria-label={text.landmarks.mainNav}>
           {NAV_ITEMS.map((item) => {
-            const labelKey = navLabelKeys[item.key];
-            const label = labelKey ? text.nav[labelKey] : item.key;
+            const label = item.label;
             if (item.isExternal) {
               return (
                 <a

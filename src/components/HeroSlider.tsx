@@ -60,7 +60,7 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               key={index}
               type="button"
               onClick={() => setCurrentIndex(index)}
-              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-purple)] ${
+              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring)] ${
                 index === currentIndex
                   ? 'w-6 bg-[var(--color-accent-purple)]'
                   : 'w-1.5 bg-[var(--color-border-strong)]/25 hover:bg-[var(--color-text-muted)]'

@@ -3,6 +3,7 @@ import { getArticlesByCategory, getAllArticleSlugs } from '@/src/lib/articles';
 import { CATEGORY_LABELS, isArticleCategory } from '@/src/lib/content-types';
 import ArticleList from '@/src/components/ArticleList';
 import type { Metadata } from 'next';
+import { text } from '@/src/lib/ui-text';
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
@@ -17,7 +18,7 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category } = await params;
-  if (!isArticleCategory(category)) return { title: '404' };
+  if (!isArticleCategory(category)) return { title: text.notFound.title };
   return { title: CATEGORY_LABELS[category] };
 }
 
