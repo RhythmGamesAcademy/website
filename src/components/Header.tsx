@@ -3,6 +3,7 @@ import { text } from '@/src/lib/ui-text';
 import { NAV_ITEMS } from '@/src/lib/navigation';
 import { sitePath } from '@/src/lib/paths';
 import { siteConfig } from '@/src/lib/site-config';
+import Logo from './Logo';
 import MobileNav from './MobileNav';
 
 export default function Header() {
@@ -13,9 +14,9 @@ export default function Header() {
           href={sitePath('/')}
           className="flex items-center gap-3 transition-colors hover:text-[var(--color-accent-purple)]"
         >
-          <div className="flex items-center justify-center w-10 h-10 rounded-md bg-[var(--color-accent-pink)] text-[var(--color-bg-page)] text-xs font-bold tracking-widest">
-            LOGO
-          </div>
+          {/* 隣に学園名が並ぶので、読み上げが二重にならないよう label は渡さない。
+              色を明示しているのは、リンクの hover 色をロゴに波及させないため。 */}
+          <Logo className="h-9 w-auto text-[var(--color-text-primary)]" />
           <span className="text-lg font-semibold tracking-wide text-[var(--color-text-primary)]">
             {siteConfig.name}
           </span>

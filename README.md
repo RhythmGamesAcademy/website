@@ -1,6 +1,6 @@
 # 音楽ゲーム学園 公式サイト
 
-[https://rhythmgamesacademy.github.io/website/ja](https://rhythmgamesacademy.github.io/website/ja)
+[>Visit Website](https://rhythmgamesacademy.github.io/website/ja)
 
 ---
 
@@ -9,6 +9,10 @@
 音楽ゲーム学園は、音楽ゲームをめぐる知識や技術、文化を持ち寄り、蓄えていくためのコミュニティです。
 
 音楽ゲームというジャンルには長い歴史があり、その間に膨大な知見が積み上がってきました。しかしその多くは個人の中に留まったまま失われたり、断片的に共有されるだけで散逸したりしがちです。誰かが確かめたことを次の誰かが引き継げる場所があれば、この文化はもっと豊かになる。学園はそうした発想から始まりました。
+
+<div align="center">
+  <img src="public\images\rga-logo_b_nottrp.png" alt="音楽ゲーム学園のロゴ" width="300">
+</div>
 
 ### どんな活動をする場所か
 

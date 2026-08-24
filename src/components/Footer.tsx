@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { text } from '@/src/lib/ui-text';
 import { FOOTER_NAV_GROUPS, FOOTER_BOTTOM_LINKS } from '@/src/lib/navigation';
 import { siteConfig } from '@/src/lib/site-config';
+import Logo from './Logo';
 
 export default function Footer() {
   return (
@@ -35,9 +36,11 @@ export default function Footer() {
       <div className="py-8 border-t border-[var(--color-border-subtle)]">
         <div className="container px-4 mx-auto md:px-6">
           <div className="mb-6">
-            <div className="flex items-center justify-center w-12 h-12 rounded-md bg-[var(--color-accent-pink)] text-[var(--color-bg-page)] text-xs font-bold tracking-widest">
-              LOGO
-            </div>
+            {/* すぐ隣に学園名の文字が無いため、ここでは代替テキストを与える。 */}
+            <Logo
+              className="h-12 w-auto text-[var(--color-text-primary)]"
+              label={siteConfig.name}
+            />
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-start mb-6 gap-6">
