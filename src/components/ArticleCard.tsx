@@ -13,9 +13,9 @@ export default function ArticleCard({ article }: { article: Article }) {
         <div className="flex items-center gap-3">
           <time
             className="text-xs text-[var(--color-text-muted)] whitespace-nowrap"
-            dateTime={article.date}
+            dateTime={article.displayDate}
           >
-            {formatArticleDate(article.date)}
+            {formatArticleDate(article.displayDate)}
           </time>
           <CategoryBadge category={article.category} />
         </div>

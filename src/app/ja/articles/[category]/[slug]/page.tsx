@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       title: article.title,
       description: article.excerpt,
       type: 'article',
-      publishedTime: article.date,
+      publishedTime: article.publish ?? article.displayDate,
     },
   };
 }
@@ -57,7 +57,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           {article.title}
         </h1>
         <p className="text-sm text-[var(--color-text-muted)] mb-8">
-          <time dateTime={article.date}>{formatArticleDate(article.date)}</time>
+          <time dateTime={article.displayDate}>{formatArticleDate(article.displayDate)}</time>
         </p>
         <article
           className="markdown-body"

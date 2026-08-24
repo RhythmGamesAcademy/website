@@ -48,19 +48,26 @@ URLは `/ja/` プレフィックスを保持している。これは**過去に�
    sanitize工程があるため、Markdown中の生HTMLは落とされる。
 2. `lib/content-schema.ts` … 全フロントマターをzodで検証。不正なら `ContentSchemaError` を投げて**ビルドを失敗させる**（サイレントスキップしない）。
    新しいフロントマター項目を足す場合は必ずここのスキーマを先に更新する。
-3. `lib/articles.ts` / `hero-slides.ts` … ディレクトリ走査とソート。記事は `date` 降順。
+3. `lib/articles.ts` / `hero-slides.ts` … ディレクトリ走査とソート。記事は `publish`（省略時は `date`）の降順。
 
 コンテンツの所在:
 - 記事: `content/ja/articles/<category>/<slug>.md`
   カテゴリは `lib/content-types.ts` の `ARTICLE_CATEGORIES`（news / statement / amendment / record / press-release）に固定。
   追加時は `ARTICLE_CATEGORIES` と `CATEGORY_LABELS` の両方を更新する。
 - 憲章: `content/ja/charter/charter.md`
-- 組織概要: `content/ja/about/organization.md`
+- 学園について: `content/ja/about.md`（役職一覧を含む。かつて別ページだった組織概要はここへ統合済み）
 - 入学案内: `content/ja/admissions/how-to-join.md`
 - ポリシー: `content/ja/policies/{privacy,site-policy,accessibility}.md`（スラッグは `app/ja/policies/[slug]/page.tsx` にハードコード）
 - ヒーロー: `content/ja/hero-slides.json`（`image` は `/images/` 配下のみ許可。`linkUrl` は検証されないので綴りに注意）
 
-**公開制御の仕組みは無い。** `content/ja/` に置いたものは即座に全て公開される。下書きはリポジトリ外で管理すること。
+記事だけは frontmatter の `publish`（ISO 8601・タイムゾーンオフセット必須）で予約投稿できる。
+指定時刻を過ぎるまでページ自体が生成されないため、一覧にも検索にも直接URLにも現れない。
+判定は `lib/articles.ts` の `readPublishedArticleFiles()` に集約されており、公開判定はビルド時にしか行えない
+（静的エクスポートのため）。定期ビルドは `.github/workflows/nextjs.yml` の `schedule` が日本時間12:00に実行する。
+詳細は README を参照。
+
+**記事以外に公開制御の仕組みは無い。** 固定ページや憲章は `content/ja/` に置いた時点で全て公開される。
+下書きはリポジトリ外で管理すること。
 
 ### basePath（GitHub Pages対応）
 本番は `/website` 配下で配信されるため、パス連結を素で書かない。

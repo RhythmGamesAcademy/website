@@ -6,7 +6,6 @@ export const text = {
     admissions: '入学案内',
     charter: '学園憲章',
     about: '学園について',
-    organization: '組織概要',
     contact: 'お問い合わせ',
     search: 'サイト内検索',
   },

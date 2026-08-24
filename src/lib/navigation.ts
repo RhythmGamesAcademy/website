@@ -30,11 +30,6 @@ export const FOOTER_NAV_GROUPS: FooterNavGroup[] = [
     items: [
       { key: 'charter', href: sitePath('/charter'), label: text.nav.charter },
       { key: 'about', href: sitePath('/about'), label: text.nav.about },
-      {
-        key: 'organization',
-        href: sitePath('/about/organization'),
-        label: text.nav.organization,
-      },
     ],
   },
   {

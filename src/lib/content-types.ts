@@ -23,7 +23,12 @@ export function isArticleCategory(value: string): value is ArticleCategory {
 export interface Article {
   slug: string;
   title: string;
+  /** 執筆日 (YYYY-MM-DD)。内部的な記録であり、読者には表示しない。 */
   date: string;
+  /** 公開日時 (ISO 8601・オフセット必須)。省略時は公開済み扱い。 */
+  publish?: string;
+  /** 読者に見せる日付 (YYYY-MM-DD)。publish があればその暦日、無ければ date。 */
+  displayDate: string;
   category: ArticleCategory;
   excerpt: string;
   content: string;
