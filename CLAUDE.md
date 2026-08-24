@@ -63,7 +63,7 @@ URLは `/ja/` プレフィックスを保持している。これは**過去に�
 記事だけは frontmatter の `publish`（ISO 8601・タイムゾーンオフセット必須）で予約投稿できる。
 指定時刻を過ぎるまでページ自体が生成されないため、一覧にも検索にも直接URLにも現れない。
 判定は `lib/articles.ts` の `readPublishedArticleFiles()` に集約されており、公開判定はビルド時にしか行えない
-（静的エクスポートのため）。定期ビルドは `.github/workflows/nextjs.yml` の `schedule` が日本時間12:00に実行する。
+（静的エクスポートのため）。定期ビルドは `.github/workflows/nextjs.yml` の `schedule` が毎時07分に実行する。
 詳細は README を参照。
 
 **記事以外に公開制御の仕組みは無い。** 固定ページや憲章は `content/ja/` に置いた時点で全て公開される。

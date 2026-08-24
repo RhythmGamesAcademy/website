@@ -9,12 +9,16 @@ on:
   push:
     branches: ["main"]
 
-  # Daily rebuild so that scheduled articles (frontmatter `publish`) go live.
+  # Hourly rebuild so that scheduled articles (frontmatter `publish`) go live.
   # The site is a static export, so an article only appears once the site is
   # rebuilt -- without this, a scheduled article would wait for the next push.
-  # GitHub cron is UTC: 03:00 UTC is 12:00 Japan Standard Time (UTC+9).
+  # Rebuilding every hour keeps the gap between the `publish` time and the
+  # article actually appearing under about an hour, whatever time of day is set.
+  # Runs at :07 rather than :00 because GitHub delays or drops scheduled runs
+  # when many repositories fire on the hour. GitHub cron is UTC, but an hourly
+  # schedule is the same in every timezone, so no JST conversion is needed.
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "7 * * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
